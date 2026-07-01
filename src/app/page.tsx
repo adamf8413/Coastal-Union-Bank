@@ -1,221 +1,227 @@
 "use client"
 
-import { useSession } from "next-auth/react"
-import { useEffect, useState } from "react"
-import { useRouter } from "next/navigation"
 import Link from "next/link"
-import { Header } from "@/components/Header"
-import { AtmCard } from "@/components/AtmCard"
-import { HoldingCard } from "@/components/HoldingCard"
-import { PortfolioChart } from "@/components/PortfolioChart"
-import { TransactionList } from "@/components/TransactionList"
-import { HeroIllustration } from "@/components/HeroIllustration"
-import { AnimatedBackground } from "@/components/AnimatedBackground"
+import { useSession } from "next-auth/react"
+import { useEffect } from "react"
+import { useRouter } from "next/navigation"
 import { brand } from "@/lib/brand"
 
-type Holding = {
-  id: string
-  assetType: string
-  amount: number
-  value: number
-  price: number
-  change24h: number
-}
-
-export default function DashboardPage() {
+export default function LandingPage() {
   const { data: session, status } = useSession()
   const router = useRouter()
-  const [holdings, setHoldings] = useState<Holding[]>([])
-  const [transactions, setTransactions] = useState([])
-  const [totalValue, setTotalValue] = useState(0)
-  const userName = session?.user?.name || (session?.user as any)?.username || ""
 
   useEffect(() => {
-    if (status === "unauthenticated") router.push("/login")
+    if (status === "authenticated") router.push("/dashboard")
   }, [status, router])
-
-  useEffect(() => {
-    if (session) {
-      fetch("/api/portfolio").then((r) => r.json()).then((d) => {
-        setHoldings(d.holdings || [])
-        setTotalValue(d.totalValue || 0)
-      })
-      fetch("/api/transactions").then((r) => r.json()).then((d) => {
-        setTransactions(d.transactions || [])
-      })
-    }
-  }, [session])
 
   if (status === "loading") {
     return <div className="flex min-h-screen items-center justify-center text-zinc-500">Loading...</div>
   }
 
-  const chartData = holdings.map((h) => ({
-    name: h.assetType,
-    value: h.value,
-    color: h.assetType,
-  }))
-
+  if (session) return null
   return (
-    <>
-      <Header />
-      <main className="min-h-screen">
-        {/* ── Hero Section ── */}
-        <section className="relative overflow-hidden pt-6 md:pt-20 pb-16 md:pb-24">
-          <AnimatedBackground />
+    <div className="min-h-screen flex flex-col" style={{ background: "var(--brand-background)" }}>
+      {/* Nav */}
+      <nav className="flex items-center justify-between px-6 py-4">
+        <div className="flex items-center gap-3">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <rect width="32" height="32" rx="8" fill="var(--brand-primary)" />
+            <path d="M16 6c5.5 0 10 4.5 10 10s-4.5 10-10 10S6 21.5 6 16 10.5 6 16 6z" fill="#fff" opacity="0.2" />
+            <path d="M16 10c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6z" fill="#fff" opacity="0.4" />
+            <circle cx="16" cy="16" r="3" fill="#fff" />
+          </svg>
+          <span className="font-bold text-lg" style={{ color: "var(--brand-foreground)" }}>{brand.name}</span>
+        </div>
+        <div className="flex items-center gap-3">
+          <Link href="/login" className="text-sm text-zinc-400 hover:text-zinc-200 transition-colors px-4 py-2">
+            Sign In
+          </Link>
+          <Link
+            href="/register"
+            className="text-sm font-medium text-white px-4 py-2 rounded-lg transition-colors"
+            style={{ backgroundColor: "var(--brand-primary)" }}
+          >
+            Get Started
+          </Link>
+        </div>
+      </nav>
 
-          <div className="relative mx-auto max-w-6xl px-4" style={{ zIndex: 1 }}>
-            <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
-              {/* Left: Text */}
-              <div className="flex-1 text-center md:text-left" style={{ animation: "fade-in-up 1s ease-out" }}>
-                <div
-                  className="inline-block rounded-full px-4 py-1.5 text-xs font-medium mb-4 tracking-wide uppercase"
-                  style={{
-                    background: "linear-gradient(135deg, var(--brand-primary), var(--brand-accent))",
-                    color: "white",
-                  }}
-                >
-                  {brand.shortName} · Premium Banking
-                </div>
-                <h1
-                  className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4"
-                  style={{
-                    background: "linear-gradient(135deg, var(--brand-foreground) 0%, var(--brand-primary-light) 50%, var(--brand-accent) 100%)",
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                    backgroundClip: "text",
-                  }}
-                >
-                  Welcome back{userName ? `, ${userName.split(" ")[0]}` : ""}
-                </h1>
-                <p className="text-lg text-zinc-400 max-w-md mx-auto md:mx-0 mb-6">
-                  Your portfolio is performing well. Track, send, and deposit across USD, EUR, and crypto — all in one place.
-                </p>
-
-                {/* Quick action buttons */}
-                <div className="flex flex-wrap gap-3 justify-center md:justify-start">
-                  <Link
-                    href="/send"
-                    className="inline-flex items-center gap-2 rounded-xl px-6 py-3 font-medium text-white transition-all duration-300 hover:scale-105"
-                    style={{
-                      background: "linear-gradient(135deg, var(--brand-primary), var(--brand-primary-dark))",
-                    }}
-                  >
-                    <span>↑</span> Send Money
-                  </Link>
-                  <Link
-                    href="/deposit"
-                    className="inline-flex items-center gap-2 rounded-xl px-6 py-3 font-medium transition-all duration-300 hover:scale-105"
-                    style={{
-                      background: "rgba(255,255,255,0.05)",
-                      border: "1px solid var(--brand-border)",
-                      color: "var(--brand-foreground)",
-                    }}
-                  >
-                    <span>↓</span> Deposit
-                  </Link>
-                </div>
-
-                {/* Stats row */}
-                <div className="flex flex-wrap gap-6 mt-8 justify-center md:justify-start" style={{ animation: "fade-in-up 1s ease-out 0.3s both" }}>
-                  <div>
-                    <div className="text-2xl font-bold" style={{ color: "var(--brand-primary-light)" }}>
-                      ${totalValue.toLocaleString(undefined, { minimumFractionDigits: 2 })}
-                    </div>
-                    <div className="text-xs text-zinc-500 mt-0.5">Total Value</div>
-                  </div>
-                  <div className="w-px bg-zinc-800 hidden sm:block" />
-                  <div>
-                    <div className="text-2xl font-bold text-zinc-200">{holdings.length}</div>
-                    <div className="text-xs text-zinc-500 mt-0.5">Assets</div>
-                  </div>
-                  <div className="w-px bg-zinc-800 hidden sm:block" />
-                  <div>
-                    <div className="text-2xl font-bold text-emerald-400">+2.4%</div>
-                    <div className="text-xs text-zinc-500 mt-0.5">Today</div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Right: Illustration */}
-              <div
-                className="flex-shrink-0"
-                style={{ animation: "slide-in-right 1s ease-out 0.2s both" }}
-              >
-                <HeroIllustration size={320} />
-              </div>
-            </div>
+      {/* Hero */}
+      <main className="flex-1 flex items-center justify-center px-6 relative overflow-hidden">
+        {/* Flying Birds */}
+        <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+          <div className="bird bird-1">
+            <svg width="40" height="24" viewBox="0 0 40 24" fill="none">
+              <path d="M0 12 Q10 0 20 12 Q30 24 40 12" stroke="var(--brand-primary)" strokeWidth="2" fill="none" opacity="0.3" />
+              <path d="M0 12 Q10 4 20 12 Q30 20 40 12" stroke="var(--brand-primary)" strokeWidth="1.5" fill="none" opacity="0.15" />
+            </svg>
           </div>
-
-          {/* Bottom fade */}
-          <div
-            className="absolute bottom-0 left-0 right-0 h-32 pointer-events-none"
-            style={{
-              background: "linear-gradient(to top, var(--brand-background), transparent)",
-            }}
-          />
-        </section>
-
-        {/* ── ATM Card ── */}
-        <div className="mx-auto max-w-6xl px-4 -mt-12 mb-8 relative" style={{ zIndex: 2, animation: "fade-in-up 1s ease-out 0.35s both" }}>
-          <AtmCard
-            accountNumber={(session?.user as any)?.accountNumber}
-            routingNumber={(session?.user as any)?.routingNumber}
-            userName={session?.user?.name || (session?.user as any)?.username}
-          />
+          <div className="bird bird-2">
+            <svg width="32" height="20" viewBox="0 0 32 20" fill="none">
+              <path d="M0 10 Q8 2 16 10 Q24 18 32 10" stroke="var(--brand-accent)" strokeWidth="2" fill="none" opacity="0.25" />
+            </svg>
+          </div>
+          <div className="bird bird-3">
+            <svg width="28" height="16" viewBox="0 0 28 16" fill="none">
+              <path d="M0 8 Q7 0 14 8 Q21 16 28 8" stroke="var(--brand-primary)" strokeWidth="1.5" fill="none" opacity="0.2" />
+            </svg>
+          </div>
+          <div className="bird bird-4">
+            <svg width="36" height="22" viewBox="0 0 36 22" fill="none">
+              <path d="M0 11 Q9 0 18 11 Q27 22 36 11" stroke="var(--brand-accent)" strokeWidth="1.5" fill="none" opacity="0.15" />
+            </svg>
+          </div>
         </div>
 
-        {/* ── Dashboard Sections ── */}
-        <div className="mx-auto max-w-6xl px-4 pb-24">
-          <div className="grid gap-4 md:grid-cols-3 mb-8" style={{ animation: "fade-in-up 1s ease-out 0.4s both" }}>
-            <div className="rounded-xl border p-4 transition-all duration-300 hover:scale-[1.02]" style={{ borderColor: "var(--brand-border)", background: "var(--brand-card)" }}>
-              <div className="text-sm text-zinc-400">Total Portfolio Value</div>
-              <div className="text-3xl font-bold mt-1" style={{ color: "var(--brand-foreground)" }}>
-                ${totalValue.toLocaleString(undefined, { minimumFractionDigits: 2 })}
-              </div>
-              <div className="flex items-center gap-1 text-sm text-emerald-400 mt-1">
-                <span>▲</span> +2.4% today
-              </div>
+        <div className="flex flex-col lg:flex-row items-center gap-12 max-w-6xl w-full relative z-10">
+          {/* Left: Text */}
+          <div className="flex-1 text-center lg:text-left">
+            <div
+              className="inline-block rounded-full px-4 py-1.5 text-xs font-medium mb-4 tracking-wide uppercase"
+              style={{
+                background: "linear-gradient(135deg, var(--brand-primary), var(--brand-accent))",
+                color: "white",
+              }}
+            >
+              {brand.shortName} · Premium Digital Banking
             </div>
-            <div className="rounded-xl border p-4 transition-all duration-300 hover:scale-[1.02]" style={{ borderColor: "var(--brand-border)", background: "var(--brand-card)" }}>
-              <div className="text-sm text-zinc-400">Assets Held</div>
-              <div className="text-3xl font-bold mt-1">{holdings.length}</div>
-              <div className="text-sm text-zinc-500 mt-1">Across {holdings.length} currencies</div>
-            </div>
-            <div className="rounded-xl border p-4 transition-all duration-300 hover:scale-[1.02]" style={{ borderColor: "var(--brand-border)", background: "var(--brand-card)" }}>
-              <div className="text-sm text-zinc-400">Open Transactions</div>
-              <div className="text-3xl font-bold mt-1">
-                {transactions.filter((t: any) => t.status === "pending" || t.status === "pending_otp").length}
-              </div>
-              <div className="text-sm text-zinc-500 mt-1">Pending</div>
+            <h1
+              className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4"
+              style={{
+                background: "linear-gradient(135deg, var(--brand-foreground) 0%, var(--brand-primary-light) 50%, var(--brand-accent) 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+              }}
+            >
+              Banking Made Simple
+            </h1>
+            <p className="text-lg text-zinc-400 max-w-md mx-auto lg:mx-0 mb-8">
+              Manage USD, EUR, GBP, and crypto all in one place. Send money, track your portfolio, and grow your wealth securely.
+            </p>
+            <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
+              <Link
+                href="/register"
+                className="inline-flex items-center gap-2 rounded-xl px-6 py-3 font-medium text-white transition-all hover:scale-105"
+                style={{
+                  background: "linear-gradient(135deg, var(--brand-primary), var(--brand-primary-dark))",
+                }}
+              >
+                Open Free Account
+              </Link>
+              <Link
+                href="/login"
+                className="inline-flex items-center gap-2 rounded-xl px-6 py-3 font-medium transition-all hover:scale-105"
+                style={{
+                  background: "rgba(255,255,255,0.05)",
+                  border: "1px solid var(--brand-border)",
+                  color: "var(--brand-foreground)",
+                }}
+              >
+                Sign In
+              </Link>
             </div>
           </div>
 
-          <div className="mb-8" style={{ animation: "fade-in-up 1s ease-out 0.5s both" }}>
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold">Your Holdings</h2>
-              <span className="text-xs text-zinc-500">{holdings.length} assets</span>
+          {/* Right: Lady holding ATM card */}
+          <div className="flex-shrink-0 relative">
+            <div className="relative" style={{ animation: "float 6s ease-in-out infinite" }}>
+              {/* Lady silhouette */}
+              <svg width="320" height="380" viewBox="0 0 320 380" fill="none">
+                {/* Hair */}
+                <ellipse cx="160" cy="80" rx="70" ry="75" fill="var(--brand-primary-dark)" opacity="0.8" />
+                {/* Face */}
+                <ellipse cx="160" cy="95" rx="38" ry="42" fill="#fcd9b6" />
+                {/* Eyes */}
+                <circle cx="148" cy="88" r="4" fill="#1a1a2e" />
+                <circle cx="172" cy="88" r="4" fill="#1a1a2e" />
+                {/* Smile */}
+                <path d="M150 102 Q160 112 170 102" stroke="#c4956a" strokeWidth="2" fill="none" strokeLinecap="round" />
+                {/* Body - dress/top */}
+                <path d="M128 135 L192 135 L210 260 L110 260 Z" fill="var(--brand-primary)" opacity="0.85" />
+                {/* Left arm - pointing at card */}
+                <path d="M128 160 Q100 170 85 190 Q75 205 80 210" stroke="#fcd9b6" strokeWidth="14" fill="none" strokeLinecap="round" />
+                {/* Right arm - holding card area */}
+                <path d="M192 160 Q220 165 235 180 Q245 190 240 200" stroke="#fcd9b6" strokeWidth="14" fill="none" strokeLinecap="round" />
+                {/* ATM Card in right hand */}
+                <rect x="218" y="185" width="58" height="38" rx="5" fill="#1a1a2e" stroke="#6366f1" strokeWidth="2" transform="rotate(-15, 247, 204)" />
+                <rect x="224" y="192" width="46" height="3" rx="1.5" fill="#6366f1" transform="rotate(-15, 247, 204)" />
+                <rect x="224" y="199" width="30" height="2" rx="1" fill="#6366f1" opacity="0.5" transform="rotate(-15, 247, 204)" />
+                <circle cx="258" cy="214" r="4" fill="#6366f1" opacity="0.6" transform="rotate(-15, 247, 204)" />
+                {/* Card glow */}
+                <rect x="218" y="185" width="58" height="38" rx="5" fill="none" stroke="var(--brand-primary)" strokeWidth="3" opacity="0.4" transform="rotate(-15, 247, 204)" />
+                {/* Neck */}
+                <rect x="154" y="130" width="12" height="12" rx="6" fill="#fcd9b6" />
+                {/* Skirt */}
+                <path d="M110 260 Q90 280 85 310 L235 310 Q230 280 210 260 Z" fill="var(--brand-primary)" opacity="0.6" />
+                {/* Ground shadow */}
+                <ellipse cx="160" cy="320" rx="90" ry="8" fill="black" opacity="0.15" />
+              </svg>
+              {/* Sparkle effects around card */}
+              <div className="absolute" style={{ top: "165px", right: "30px", animation: "sparkle 2s ease-in-out infinite" }}>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path d="M8 0 L10 6 L16 8 L10 10 L8 16 L6 10 L0 8 L6 6 Z" fill="var(--brand-accent)" opacity="0.6" />
+                </svg>
+              </div>
+              <div className="absolute" style={{ top: "155px", right: "70px", animation: "sparkle 2s ease-in-out 0.7s infinite" }}>
+                <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                  <path d="M5 0 L6.5 3.5 L10 5 L6.5 6.5 L5 10 L3.5 6.5 L0 5 L3.5 3.5 Z" fill="var(--brand-primary)" opacity="0.5" />
+                </svg>
+              </div>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
-              {holdings.map((h) => (
-                <HoldingCard key={h.id} {...h} />
-              ))}
-            </div>
-          </div>
-
-          <div className="mb-8" style={{ animation: "fade-in-up 1s ease-out 0.55s both" }}>
-            <div className="rounded-xl border p-4" style={{ borderColor: "var(--brand-border)", background: "var(--brand-card)" }}>
-              <h2 className="text-lg font-semibold mb-4">Portfolio Allocation</h2>
-              <PortfolioChart data={chartData} />
-            </div>
-          </div>
-
-          <div style={{ animation: "fade-in-up 1s ease-out 0.6s both" }}>
-            <h2 className="text-lg font-semibold mb-4">Recent Activity</h2>
-            <TransactionList transactions={transactions.slice(0, 5)} />
           </div>
         </div>
       </main>
-    </>
+
+      {/* Footer */}
+      <footer className="text-center py-6 text-xs text-zinc-600">
+        &copy; {new Date().getFullYear()} {brand.name}. All rights reserved.
+      </footer>
+
+      {/* Keyframes */}
+      <style>{`
+        @keyframes float {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-15px); }
+        }
+        @keyframes sparkle {
+          0%, 100% { opacity: 0.3; transform: scale(0.8); }
+          50% { opacity: 1; transform: scale(1.2); }
+        }
+        .bird {
+          position: absolute;
+          animation: fly linear infinite;
+        }
+        .bird-1 {
+          top: 12%;
+          left: -60px;
+          animation-duration: 18s;
+          animation-delay: 0s;
+        }
+        .bird-2 {
+          top: 25%;
+          left: -60px;
+          animation-duration: 22s;
+          animation-delay: 3s;
+        }
+        .bird-3 {
+          top: 8%;
+          left: -60px;
+          animation-duration: 15s;
+          animation-delay: 7s;
+        }
+        .bird-4 {
+          top: 20%;
+          left: -60px;
+          animation-duration: 20s;
+          animation-delay: 11s;
+        }
+        @keyframes fly {
+          0% { transform: translateX(-60px) scale(1); }
+          50% { transform: translateX(calc(100vw + 60px)) scale(0.8); }
+          100% { transform: translateX(calc(100vw + 60px)) scale(0.6); }
+        }
+      `}</style>
+    </div>
   )
 }

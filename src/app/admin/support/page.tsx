@@ -19,7 +19,7 @@ export default function AdminSupportPage() {
 
   useEffect(() => {
     if (status === "unauthenticated") router.push("/login")
-    if (status === "authenticated" && !isAdmin) router.push("/")
+    if (status === "authenticated" && !isAdmin) router.push("/dashboard")
   }, [status, isAdmin, router])
 
   useEffect(() => {

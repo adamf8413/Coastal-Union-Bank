@@ -8,7 +8,7 @@ import { Logo } from "@/components/Logo"
 import { brand } from "@/lib/brand"
 
 const navItems = [
-  { href: "/", label: "Dashboard", icon: "◇" },
+  { href: "/dashboard", label: "Dashboard", icon: "◇" },
   { href: "/portfolio", label: "Portfolio", icon: "□" },
   { href: "/send", label: "Send", icon: "↑" },
   { href: "/deposit", label: "Deposit", icon: "↓", adminOnly: true },
@@ -88,7 +88,7 @@ export function Header() {
   return (
     <header className="glass fixed bottom-0 left-0 right-0 z-50 md:top-0 md:bottom-auto">
       <div className="mx-auto max-w-6xl flex items-center justify-between px-4 py-3">
-        <Link href="/" className="flex items-center gap-4 no-underline group">
+        <Link href="/dashboard" className="flex items-center gap-4 no-underline group">
           <Logo size={28} showText={false} />
           <span className="font-bold text-lg hidden sm:inline" style={{ color: "var(--brand-primary)" }}>{brand.name}</span>
           <span className="font-bold text-lg sm:hidden" style={{ color: "var(--brand-primary)" }}>Coastal</span>

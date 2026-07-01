@@ -55,7 +55,7 @@ export default function LoginPage() {
         setError("Failed to sign in")
         setLoading(false)
       } else {
-        router.push("/")
+        router.push("/dashboard")
       }
     } else {
       const data = await res.json()
@@ -170,14 +170,6 @@ export default function LoginPage() {
             Register
           </Link>
         </p>
-
-        {step === "form" && (
-          <div className="mt-4 rounded-lg border p-3 text-xs text-zinc-500" style={{ borderColor: "var(--brand-border)", backgroundColor: "rgba(19,19,26,0.5)" }}>
-            <p className="font-medium text-zinc-400 mb-1">Demo accounts:</p>
-            <p>User: <strong>demo</strong> / <strong>demo1234</strong></p>
-            <p>Admin: <strong>admin</strong> / <strong>admin1234</strong></p>
-          </div>
-        )}
       </div>
     </div>
   )
