@@ -173,6 +173,217 @@ export default function LandingPage() {
         </div>
       </main>
 
+      {/* Futures & Markets Section */}
+      <section className="w-full px-6 py-20" style={{ background: "var(--brand-background)" }}>
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-14">
+            <div
+              className="inline-block rounded-full px-4 py-1.5 text-xs font-medium mb-4 tracking-wide uppercase"
+              style={{
+                background: "linear-gradient(135deg, var(--brand-primary), var(--brand-accent))",
+                color: "white",
+              }}
+            >
+              Markets & Futures
+            </div>
+            <h2
+              className="text-3xl md:text-4xl font-bold mb-4"
+              style={{
+                background: "linear-gradient(135deg, var(--brand-foreground) 0%, var(--brand-primary-light) 50%, var(--brand-accent) 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+              }}
+            >
+              Trade Futures Across Global Markets
+            </h2>
+            <p className="text-zinc-400 max-w-2xl mx-auto text-lg">
+              Access crypto, commodity, index, and currency futures with competitive margins and real-time execution.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {/* Card 1 - Crypto Futures */}
+            <div
+              className="rounded-2xl p-6 transition-all duration-300 hover:scale-105 hover:-translate-y-1"
+              style={{
+                background: "linear-gradient(145deg, rgba(99,102,241,0.08), rgba(99,102,241,0.02))",
+                border: "1px solid var(--brand-border)",
+              }}
+            >
+              <div
+                className="w-12 h-12 rounded-xl flex items-center justify-center mb-4"
+                style={{ background: "linear-gradient(135deg, var(--brand-primary), var(--brand-primary-dark))" }}
+              >
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 2L22 8.5V15.5L12 22L2 15.5V8.5L12 2Z" stroke="white" strokeWidth="1.5" fill="none"/>
+                  <path d="M12 2V22M2 8.5L22 15.5M22 8.5L2 15.5" stroke="white" strokeWidth="1" opacity="0.5"/>
+                </svg>
+              </div>
+              <h3 className="text-lg font-semibold mb-2" style={{ color: "var(--brand-foreground)" }}>Crypto Futures</h3>
+              <p className="text-sm text-zinc-400 mb-4 leading-relaxed">
+                Trade BTC, ETH, and SOL futures with up to 10x leverage. Deep liquidity and tight spreads around the clock.
+              </p>
+              <div className="flex items-center gap-2 text-sm font-medium" style={{ color: "var(--brand-primary)" }}>
+                <span>Explore markets</span>
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                  <path d="M5 3L9 7L5 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+            </div>
+
+            {/* Card 2 - Commodity Futures */}
+            <div
+              className="rounded-2xl p-6 transition-all duration-300 hover:scale-105 hover:-translate-y-1"
+              style={{
+                background: "linear-gradient(145deg, rgba(236,72,153,0.08), rgba(236,72,153,0.02))",
+                border: "1px solid var(--brand-border)",
+              }}
+            >
+              <div
+                className="w-12 h-12 rounded-xl flex items-center justify-center mb-4"
+                style={{ background: "linear-gradient(135deg, var(--brand-accent), #be185d)" }}
+              >
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path d="M3 21H21M6 18V10M10 18V6M14 18V9M18 18V13" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+              <h3 className="text-lg font-semibold mb-2" style={{ color: "var(--brand-foreground)" }}>Commodity Futures</h3>
+              <p className="text-sm text-zinc-400 mb-4 leading-relaxed">
+                Gold, silver, oil, and agricultural commodities. Hedge against inflation with physical delivery options.
+              </p>
+              <div className="flex items-center gap-2 text-sm font-medium" style={{ color: "var(--brand-accent)" }}>
+                <span>View commodities</span>
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                  <path d="M5 3L9 7L5 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+            </div>
+
+            {/* Card 3 - Index Futures */}
+            <div
+              className="rounded-2xl p-6 transition-all duration-300 hover:scale-105 hover:-translate-y-1"
+              style={{
+                background: "linear-gradient(145deg, rgba(34,197,94,0.08), rgba(34,197,94,0.02))",
+                border: "1px solid var(--brand-border)",
+              }}
+            >
+              <div
+                className="w-12 h-12 rounded-xl flex items-center justify-center mb-4"
+                style={{ background: "linear-gradient(135deg, #22c55e, #15803d)" }}
+              >
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path d="M21 12H18L15 21L9 3L6 12H3" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+              <h3 className="text-lg font-semibold mb-2" style={{ color: "var(--brand-foreground)" }}>Index Futures</h3>
+              <p className="text-sm text-zinc-400 mb-4 leading-relaxed">
+                S&P 500, NASDAQ, FTSE, and Nikkei. Diversify your portfolio with broad market exposure at low cost.
+              </p>
+              <div className="flex items-center gap-2 text-sm font-medium" style={{ color: "#22c55e" }}>
+                <span>Track indices</span>
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                  <path d="M5 3L9 7L5 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+            </div>
+
+            {/* Card 4 - Currency Futures */}
+            <div
+              className="rounded-2xl p-6 transition-all duration-300 hover:scale-105 hover:-translate-y-1"
+              style={{
+                background: "linear-gradient(145deg, rgba(59,130,246,0.08), rgba(59,130,246,0.02))",
+                border: "1px solid var(--brand-border)",
+              }}
+            >
+              <div
+                className="w-12 h-12 rounded-xl flex items-center justify-center mb-4"
+                style={{ background: "linear-gradient(135deg, #3b82f6, #1d4ed8)" }}
+              >
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="12" r="9" stroke="white" strokeWidth="1.5" fill="none"/>
+                  <path d="M12 7V17M8 10H14C14.6667 10 16 10.4 16 12C16 13.6 14.6667 14 14 14H8" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+              <h3 className="text-lg font-semibold mb-2" style={{ color: "var(--brand-foreground)" }}>Currency Futures</h3>
+              <p className="text-sm text-zinc-400 mb-4 leading-relaxed">
+                EUR/USD, GBP/USD, USD/JPY and more. Benefit from forex liquidity with standardized futures contracts.
+              </p>
+              <div className="flex items-center gap-2 text-sm font-medium" style={{ color: "#3b82f6" }}>
+                <span>See forex pairs</span>
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                  <path d="M5 3L9 7L5 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          {/* Market Ticker */}
+          <div
+            className="mt-14 rounded-2xl p-8 overflow-hidden relative"
+            style={{
+              background: "linear-gradient(135deg, rgba(99,102,241,0.1), rgba(236,72,153,0.05))",
+              border: "1px solid var(--brand-border)",
+            }}
+          >
+            <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+              <div>
+                <h3 className="text-lg font-semibold" style={{ color: "var(--brand-foreground)" }}>Live Market Overview</h3>
+                <p className="text-sm text-zinc-500">Real-time futures pricing · 24h change</p>
+              </div>
+              <div
+                className="px-4 py-2 rounded-full text-xs font-medium"
+                style={{
+                  background: "rgba(34,197,94,0.1)",
+                  color: "#22c55e",
+                  border: "1px solid rgba(34,197,94,0.2)",
+                }}
+              >
+                ● Live
+              </div>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="p-3 rounded-xl" style={{ background: "rgba(255,255,255,0.03)" }}>
+                <div className="text-xs text-zinc-500 mb-1">BTC/USD</div>
+                <div className="text-sm font-semibold" style={{ color: "var(--brand-foreground)" }}>$68,423</div>
+                <div className="text-xs" style={{ color: "#22c55e" }}>+2.4%</div>
+              </div>
+              <div className="p-3 rounded-xl" style={{ background: "rgba(255,255,255,0.03)" }}>
+                <div className="text-xs text-zinc-500 mb-1">ETH/USD</div>
+                <div className="text-sm font-semibold" style={{ color: "var(--brand-foreground)" }}>$3,852</div>
+                <div className="text-xs" style={{ color: "#ef4444" }}>-1.2%</div>
+              </div>
+              <div className="p-3 rounded-xl" style={{ background: "rgba(255,255,255,0.03)" }}>
+                <div className="text-xs text-zinc-500 mb-1">S&P 500</div>
+                <div className="text-sm font-semibold" style={{ color: "var(--brand-foreground)" }}>5,672.80</div>
+                <div className="text-xs" style={{ color: "#22c55e" }}>+0.8%</div>
+              </div>
+              <div className="p-3 rounded-xl" style={{ background: "rgba(255,255,255,0.03)" }}>
+                <div className="text-xs text-zinc-500 mb-1">Gold</div>
+                <div className="text-sm font-semibold" style={{ color: "var(--brand-foreground)" }}>$2,341</div>
+                <div className="text-xs" style={{ color: "#22c55e" }}>+0.5%</div>
+              </div>
+            </div>
+          </div>
+
+          {/* CTA */}
+          <div className="text-center mt-14">
+            <Link
+              href="/register"
+              className="inline-flex items-center gap-2 rounded-xl px-8 py-4 font-medium text-white transition-all hover:scale-105"
+              style={{
+                background: "linear-gradient(135deg, var(--brand-primary), var(--brand-accent))",
+              }}
+            >
+              Start Trading Futures Today
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M6 4L10 8L6 12" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* Footer */}
       <footer className="text-center py-6 text-xs text-zinc-600">
         &copy; {new Date().getFullYear()} {brand.name}. All rights reserved.
