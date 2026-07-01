@@ -231,6 +231,112 @@ export default function LandingPage() {
         </div>
       </main>
 
+      {/* Personal Products Section */}
+      <section className="w-full px-6 py-20" style={{ background: "color-mix(in srgb, var(--brand-background) 97%, var(--brand-primary) 3%)" }}>
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-14">
+            <div
+              className="inline-block rounded-full px-4 py-1.5 text-xs font-medium mb-4 tracking-wide uppercase"
+              style={{
+                background: "linear-gradient(135deg, var(--brand-primary), var(--brand-accent))",
+                color: "white",
+              }}
+            >
+              Personal
+            </div>
+            <h2
+              className="text-3xl md:text-4xl font-bold mb-4"
+              style={{
+                background: "linear-gradient(135deg, var(--brand-foreground) 0%, var(--brand-primary-light) 50%, var(--brand-accent) 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+              }}
+            >
+              Products Built for You
+            </h2>
+            <p className="text-zinc-400 max-w-2xl mx-auto text-lg">
+              From everyday checking to premier wealth management — everything you need to manage your money.
+            </p>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {/* Checking */}
+            <div className="rounded-2xl p-6 transition-all duration-300 hover:scale-105 hover:-translate-y-1" style={{ background: "rgba(99,102,241,0.06)", border: "1px solid var(--brand-border)" }}>
+              <div className="w-11 h-11 rounded-xl flex items-center justify-center mb-3" style={{ background: "linear-gradient(135deg, var(--brand-primary), var(--brand-primary-dark))" }}>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="20" height="16" rx="2" stroke="white" strokeWidth="1.5" fill="none"/><path d="M2 8H22" stroke="white" strokeWidth="1.5"/></svg>
+              </div>
+              <h3 className="text-base font-semibold mb-1.5" style={{ color: "var(--brand-foreground)" }}>Checking</h3>
+              <p className="text-sm text-zinc-400 leading-relaxed">Everyday accounts with no monthly fees, free ATM access, and mobile banking built in.</p>
+            </div>
+            {/* Savings & CDs */}
+            <div className="rounded-2xl p-6 transition-all duration-300 hover:scale-105 hover:-translate-y-1" style={{ background: "rgba(236,72,153,0.06)", border: "1px solid var(--brand-border)" }}>
+              <div className="w-11 h-11 rounded-xl flex items-center justify-center mb-3" style={{ background: "linear-gradient(135deg, var(--brand-accent), #be185d)" }}>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2L16 8H8L12 2Z" fill="white" opacity="0.5"/><path d="M12 22L8 16H16L12 22Z" fill="white" opacity="0.5"/><rect x="4" y="8" width="16" height="8" rx="2" fill="white"/><rect x="6" y="10" width="12" height="4" rx="1" fill="var(--brand-accent)" opacity="0.4"/></svg>
+              </div>
+              <h3 className="text-base font-semibold mb-1.5" style={{ color: "var(--brand-foreground)" }}>Savings & CDs</h3>
+              <p className="text-sm text-zinc-400 leading-relaxed">Competitive rates on savings accounts and certificates of deposit with flexible terms.</p>
+            </div>
+            {/* Credit Cards */}
+            <div className="rounded-2xl p-6 transition-all duration-300 hover:scale-105 hover:-translate-y-1" style={{ background: "rgba(34,197,94,0.06)", border: "1px solid var(--brand-border)" }}>
+              <div className="w-11 h-11 rounded-xl flex items-center justify-center mb-3" style={{ background: "linear-gradient(135deg, #22c55e, #15803d)" }}>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="20" height="16" rx="2" stroke="white" strokeWidth="1.5" fill="none"/><path d="M2 10H22" stroke="white" strokeWidth="1.5"/><path d="M7 15H13" stroke="white" strokeWidth="1.5" strokeLinecap="round"/></svg>
+              </div>
+              <h3 className="text-base font-semibold mb-1.5" style={{ color: "var(--brand-foreground)" }}>Credit Cards</h3>
+              <p className="text-sm text-zinc-400 leading-relaxed">Cash back, travel rewards, and low intro APR cards designed for your lifestyle.</p>
+            </div>
+            {/* Home Loans */}
+            <div className="rounded-2xl p-6 transition-all duration-300 hover:scale-105 hover:-translate-y-1" style={{ background: "rgba(59,130,246,0.06)", border: "1px solid var(--brand-border)" }}>
+              <div className="w-11 h-11 rounded-xl flex items-center justify-center mb-3" style={{ background: "linear-gradient(135deg, #3b82f6, #1d4ed8)" }}>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 12L12 4L21 12" stroke="white" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round"/><path d="M5 10V20H19V10" stroke="white" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round"/><rect x="10" y="14" width="4" height="6" fill="white" opacity="0.4"/></svg>
+              </div>
+              <h3 className="text-base font-semibold mb-1.5" style={{ color: "var(--brand-foreground)" }}>Home Loans</h3>
+              <p className="text-sm text-zinc-400 leading-relaxed">Mortgages, refinancing, and HELOCs with competitive rates and low down payments.</p>
+            </div>
+            {/* Personal Loans */}
+            <div className="rounded-2xl p-6 transition-all duration-300 hover:scale-105 hover:-translate-y-1" style={{ background: "rgba(168,85,247,0.06)", border: "1px solid var(--brand-border)" }}>
+              <div className="w-11 h-11 rounded-xl flex items-center justify-center mb-3" style={{ background: "linear-gradient(135deg, #a855f7, #7e22ce)" }}>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="white" strokeWidth="1.5" fill="none"/><path d="M12 7V17M8 12H16" stroke="white" strokeWidth="1.5" strokeLinecap="round"/></svg>
+              </div>
+              <h3 className="text-base font-semibold mb-1.5" style={{ color: "var(--brand-foreground)" }}>Personal Loans</h3>
+              <p className="text-sm text-zinc-400 leading-relaxed">Funds for life events, home improvement, debt consolidation, and unexpected expenses.</p>
+            </div>
+            {/* Auto Loans */}
+            <div className="rounded-2xl p-6 transition-all duration-300 hover:scale-105 hover:-translate-y-1" style={{ background: "rgba(249,115,22,0.06)", border: "1px solid var(--brand-border)" }}>
+              <div className="w-11 h-11 rounded-xl flex items-center justify-center mb-3" style={{ background: "linear-gradient(135deg, #f97316, #ea580c)" }}>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M5 18H19C20.1046 18 21 17.1046 21 16V12L19 7H16L14 4H10L8 7H5L3 12V16C3 17.1046 3.89543 18 5 18Z" stroke="white" strokeWidth="1.5" fill="none"/><circle cx="7" cy="16" r="2" fill="white" opacity="0.5"/><circle cx="17" cy="16" r="2" fill="white" opacity="0.5"/></svg>
+              </div>
+              <h3 className="text-base font-semibold mb-1.5" style={{ color: "var(--brand-foreground)" }}>Auto Loans</h3>
+              <p className="text-sm text-zinc-400 leading-relaxed">New and used vehicle financing with pre-approval, flexible terms, and low rates.</p>
+            </div>
+            {/* Premier */}
+            <div className="rounded-2xl p-6 transition-all duration-300 hover:scale-105 hover:-translate-y-1" style={{ background: "rgba(14,165,233,0.06)", border: "1px solid var(--brand-border)" }}>
+              <div className="w-11 h-11 rounded-xl flex items-center justify-center mb-3" style={{ background: "linear-gradient(135deg, #0ea5e9, #0369a1)" }}>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              </div>
+              <h3 className="text-base font-semibold mb-1.5" style={{ color: "var(--brand-foreground)" }}>Premier</h3>
+              <p className="text-sm text-zinc-400 leading-relaxed">Premium relationship banking with dedicated advisors, exclusive rates, and VIP benefits.</p>
+            </div>
+            {/* Education & Tools */}
+            <div className="rounded-2xl p-6 transition-all duration-300 hover:scale-105 hover:-translate-y-1" style={{ background: "rgba(244,63,94,0.06)", border: "1px solid var(--brand-border)" }}>
+              <div className="w-11 h-11 rounded-xl flex items-center justify-center mb-3" style={{ background: "linear-gradient(135deg, #f43f5e, #be123c)" }}>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 19.5L12 14L20 19.5V5L12 10L4 5V19.5Z" stroke="white" strokeWidth="1.5" fill="none" strokeLinejoin="round"/></svg>
+              </div>
+              <h3 className="text-base font-semibold mb-1.5" style={{ color: "var(--brand-foreground)" }}>Education & Tools</h3>
+              <p className="text-sm text-zinc-400 leading-relaxed">Financial calculators, budgeting tools, credit score tracking, and learning resources.</p>
+            </div>
+          </div>
+
+          <div className="flex flex-wrap items-center justify-center gap-6 mt-12 text-sm text-zinc-500">
+            <span className="flex items-center gap-1.5"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17L4 12" stroke="#22c55e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg> No monthly fees</span>
+            <span className="flex items-center gap-1.5"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17L4 12" stroke="#22c55e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg> 60k+ fee-free ATMs</span>
+            <span className="flex items-center gap-1.5"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17L4 12" stroke="#22c55e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg> Mobile check deposit</span>
+            <span className="flex items-center gap-1.5"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17L4 12" stroke="#22c55e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg> 24/7 fraud protection</span>
+            <span className="flex items-center gap-1.5"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17L4 12" stroke="#22c55e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg> FDIC insured up to $250k</span>
+          </div>
+        </div>
+      </section>
+
       {/* Futures & Markets Section */}
       <section className="w-full px-6 py-20" style={{ background: "var(--brand-background)" }}>
         <div className="max-w-6xl mx-auto">
