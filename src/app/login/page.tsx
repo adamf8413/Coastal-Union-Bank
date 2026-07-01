@@ -31,11 +31,15 @@ export default function LoginPage() {
 
     if (res.ok) {
       if (data.isAdmin) {
-        const signInResult = await signIn("credentials", { username, password, redirect: false })
-        if (signInResult?.error) {
-          setError("Failed to sign in")
+        const adminRes = await fetch("/api/login/admin", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username, password }),
+        })
+        if (adminRes.ok) {
+          window.location.href = "/dashboard"
         } else {
-          router.push("/dashboard")
+          setError("Admin login failed")
         }
         setLoading(false)
         return
