@@ -126,48 +126,106 @@ export default function LandingPage() {
           {/* Right: Lady holding ATM card */}
           <div className="flex-shrink-0 relative">
             <div className="relative" style={{ animation: "float 6s ease-in-out infinite" }}>
-              {/* Lady silhouette */}
               <svg width="320" height="380" viewBox="0 0 320 380" fill="none">
-                {/* Hair */}
-                <ellipse cx="160" cy="80" rx="70" ry="75" fill="var(--brand-primary-dark)" opacity="0.8" />
-                {/* Face */}
-                <ellipse cx="160" cy="95" rx="38" ry="42" fill="#fcd9b6" />
-                {/* Eyes */}
-                <circle cx="148" cy="88" r="4" fill="#1a1a2e" />
-                <circle cx="172" cy="88" r="4" fill="#1a1a2e" />
-                {/* Smile */}
-                <path d="M150 102 Q160 112 170 102" stroke="#c4956a" strokeWidth="2" fill="none" strokeLinecap="round" />
-                {/* Body - dress/top */}
-                <path d="M128 135 L192 135 L210 260 L110 260 Z" fill="var(--brand-primary)" opacity="0.85" />
-                {/* Left arm - pointing at card */}
-                <path d="M128 160 Q100 170 85 190 Q75 205 80 210" stroke="#fcd9b6" strokeWidth="14" fill="none" strokeLinecap="round" />
-                {/* Right arm - holding card area */}
-                <path d="M192 160 Q220 165 235 180 Q245 190 240 200" stroke="#fcd9b6" strokeWidth="14" fill="none" strokeLinecap="round" />
-                {/* ATM Card in right hand */}
-                <rect x="218" y="185" width="58" height="38" rx="5" fill="#1a1a2e" stroke="#6366f1" strokeWidth="2" transform="rotate(-15, 247, 204)" />
-                <rect x="224" y="192" width="46" height="3" rx="1.5" fill="#6366f1" transform="rotate(-15, 247, 204)" />
-                <rect x="224" y="199" width="30" height="2" rx="1" fill="#6366f1" opacity="0.5" transform="rotate(-15, 247, 204)" />
-                <circle cx="258" cy="214" r="4" fill="#6366f1" opacity="0.6" transform="rotate(-15, 247, 204)" />
-                {/* Card glow */}
-                <rect x="218" y="185" width="58" height="38" rx="5" fill="none" stroke="var(--brand-primary)" strokeWidth="3" opacity="0.4" transform="rotate(-15, 247, 204)" />
-                {/* Neck */}
-                <rect x="154" y="130" width="12" height="12" rx="6" fill="#fcd9b6" />
-                {/* Skirt */}
-                <path d="M110 260 Q90 280 85 310 L235 310 Q230 280 210 260 Z" fill="var(--brand-primary)" opacity="0.6" />
-                {/* Ground shadow */}
-                <ellipse cx="160" cy="320" rx="90" ry="8" fill="black" opacity="0.15" />
+                {/* Ground */}
+                <rect x="0" y="290" width="320" height="10" rx="4" fill="var(--brand-primary)" opacity="0.15" />
+                <ellipse cx="160" cy="330" rx="140" ry="8" fill="black" opacity="0.08" />
+
+                {/* Bank Building */}
+                <rect x="80" y="120" width="160" height="170" rx="8" fill="var(--brand-primary-dark)" opacity="0.9" />
+                {/* Bank front highlight */}
+                <rect x="88" y="128" width="144" height="162" rx="6" fill="var(--brand-background)" opacity="0.15" />
+                {/* Pediment / Triangle roof */}
+                <path d="M70 120 L160 65 L250 120 Z" fill="var(--brand-primary)" />
+                <path d="M80 120 L160 73 L240 120 Z" fill="var(--brand-primary-dark)" />
+                {/* Columns */}
+                <rect x="100" y="135" width="14" height="80" rx="3" fill="var(--brand-background)" opacity="0.3" />
+                <rect x="152" y="135" width="14" height="80" rx="3" fill="var(--brand-background)" opacity="0.3" />
+                <rect x="205" y="135" width="14" height="80" rx="3" fill="var(--brand-background)" opacity="0.3" />
+                {/* Column capitals */}
+                <rect x="96" y="132" width="22" height="6" rx="2" fill="var(--brand-background)" opacity="0.4" />
+                <rect x="148" y="132" width="22" height="6" rx="2" fill="var(--brand-background)" opacity="0.4" />
+                <rect x="201" y="132" width="22" height="6" rx="2" fill="var(--brand-background)" opacity="0.4" />
+                {/* Door */}
+                <rect x="140" y="218" width="40" height="65" rx="20" fill="#1a1a2e" />
+                <rect x="145" y="222" width="30" height="58" rx="18" fill="var(--brand-primary)" opacity="0.4" />
+                {/* Door handle */}
+                <circle cx="170" cy="252" r="3" fill="var(--brand-accent)" opacity="0.8" />
+                {/* Windows */}
+                <rect x="110" y="150" width="36" height="28" rx="4" fill="#1a1a2e" />
+                <rect x="112" y="152" width="32" height="24" rx="3" fill="var(--brand-accent)" opacity="0.15" />
+                <rect x="172" y="150" width="36" height="28" rx="4" fill="#1a1a2e" />
+                <rect x="174" y="152" width="32" height="24" rx="3" fill="var(--brand-accent)" opacity="0.15" />
+                {/* Bank name on building */}
+                <text x="160" y="205" textAnchor="middle" fill="var(--brand-foreground)" fontSize="9" fontWeight="bold" fontFamily="sans-serif" opacity="0.6">COASTAL UNION</text>
+
+                {/* Big Round Money Ring - circular arrangement of bills */}
+                <g transform="translate(160, 310)">
+                  {/* Outer ring glow */}
+                  <circle cx="0" cy="0" r="65" fill="none" stroke="var(--brand-primary)" strokeWidth="1" opacity="0.15" />
+                  {/* Money bills arranged in a circle */}
+                  {[0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330].map((angle) => {
+                    const rad = (angle * Math.PI) / 180
+                    const x = Math.cos(rad) * 52
+                    const y = Math.sin(rad) * 52
+                    const rot = angle + 90
+                    return (
+                      <g key={angle} transform={`translate(${x}, ${y}) rotate(${rot})`}>
+                        <rect x="-10" y="-7" width="20" height="14" rx="2" fill="var(--brand-primary)" opacity="0.7" />
+                        <rect x="-8" y="-5" width="16" height="10" rx="1" fill="var(--brand-background)" opacity="0.9" />
+                        <ellipse cx="0" cy="0" rx="6" ry="2" fill="var(--brand-primary)" opacity="0.3" />
+                      </g>
+                    )
+                  })}
+                  {/* Center coin stack */}
+                  <ellipse cx="0" cy="-4" rx="14" ry="6" fill="#fbbf24" opacity="0.8" />
+                  <ellipse cx="0" cy="0" rx="14" ry="6" fill="#f59e0b" />
+                  <ellipse cx="0" cy="4" rx="14" ry="6" fill="#d97706" />
+                  <ellipse cx="0" cy="8" rx="14" ry="6" fill="#f59e0b" opacity="0.9" />
+                  <circle cx="0" cy="0" r="8" fill="none" stroke="#fbbf24" strokeWidth="0.5" opacity="0.5" />
+                  <text x="0" y="3" textAnchor="middle" fill="#1a1a2e" fontSize="7" fontWeight="bold">$</text>
+                  {/* Dollar signs on outer notes */}
+                  <text x="-20" y="-30" textAnchor="middle" fill="var(--brand-primary)" fontSize="10" fontWeight="bold" opacity="0.5">$</text>
+                  <text x="20" y="-28" textAnchor="middle" fill="var(--brand-primary)" fontSize="7" fontWeight="bold" opacity="0.4">$</text>
+                  <text x="0" y="38" textAnchor="middle" fill="var(--brand-primary)" fontSize="8" fontWeight="bold" opacity="0.4">$</text>
+                  <text x="-30" y="15" textAnchor="middle" fill="var(--brand-primary)" fontSize="6" fontWeight="bold" opacity="0.3">$</text>
+                  <text x="30" y="18" textAnchor="middle" fill="var(--brand-primary)" fontSize="6" fontWeight="bold" opacity="0.3">$</text>
+                </g>
+
+                {/* Car parked in front */}
+                <g transform="translate(130, 272)">
+                  {/* Car body */}
+                  <path d="M10 18 L10 10 Q12 4 20 4 L40 4 Q48 4 50 10 L50 18 Z" fill="var(--brand-accent)" opacity="0.85" />
+                  {/* Car roof */}
+                  <path d="M16 10 L16 8 Q18 4 24 4 L36 4 Q42 4 44 8 L44 10 Z" fill="var(--brand-accent)" opacity="0.6" />
+                  {/* Windshield */}
+                  <path d="M16 10 L16 8 Q18 5 23 5 L28 5 L28 10 Z" fill="#6366f1" opacity="0.3" />
+                  <path d="M32 10 L32 5 L37 5 Q42 5 44 8 L44 10 Z" fill="#6366f1" opacity="0.3" />
+                  {/* Wheels */}
+                  <circle cx="18" cy="18" r="5" fill="#1a1a2e" />
+                  <circle cx="18" cy="18" r="3" fill="#374151" />
+                  <circle cx="42" cy="18" r="5" fill="#1a1a2e" />
+                  <circle cx="42" cy="18" r="3" fill="#374151" />
+                  {/* Headlight */}
+                  <circle cx="49" cy="12" r="2" fill="#fbbf24" opacity="0.6" />
+                  {/* Tail light */}
+                  <circle cx="11" cy="12" r="1.5" fill="#ef4444" opacity="0.5" />
+                </g>
+
+                {/* Sparkle effects */}
+                <circle cx="260" cy="100" r="3" fill="var(--brand-accent)" opacity="0.5">
+                  <animate attributeName="opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite"/>
+                </circle>
+                <circle cx="270" cy="115" r="2" fill="var(--brand-primary)" opacity="0.4">
+                  <animate attributeName="opacity" values="0.4;0.9;0.4" dur="2.5s" repeatCount="indefinite"/>
+                </circle>
+                <circle cx="55" cy="130" r="2.5" fill="var(--brand-accent)" opacity="0.3">
+                  <animate attributeName="opacity" values="0.3;0.8;0.3" dur="3s" repeatCount="indefinite"/>
+                </circle>
+                <circle cx="250" cy="200" r="2" fill="#fbbf24" opacity="0.4">
+                  <animate attributeName="opacity" values="0.4;0.9;0.4" dur="1.8s" repeatCount="indefinite"/>
+                </circle>
               </svg>
-              {/* Sparkle effects around card */}
-              <div className="absolute" style={{ top: "165px", right: "30px", animation: "sparkle 2s ease-in-out infinite" }}>
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <path d="M8 0 L10 6 L16 8 L10 10 L8 16 L6 10 L0 8 L6 6 Z" fill="var(--brand-accent)" opacity="0.6" />
-                </svg>
-              </div>
-              <div className="absolute" style={{ top: "155px", right: "70px", animation: "sparkle 2s ease-in-out 0.7s infinite" }}>
-                <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                  <path d="M5 0 L6.5 3.5 L10 5 L6.5 6.5 L5 10 L3.5 6.5 L0 5 L3.5 3.5 Z" fill="var(--brand-primary)" opacity="0.5" />
-                </svg>
-              </div>
             </div>
           </div>
         </div>
@@ -394,10 +452,6 @@ export default function LandingPage() {
         @keyframes float {
           0%, 100% { transform: translateY(0px); }
           50% { transform: translateY(-15px); }
-        }
-        @keyframes sparkle {
-          0%, 100% { opacity: 0.3; transform: scale(0.8); }
-          50% { opacity: 1; transform: scale(1.2); }
         }
         .bird {
           position: absolute;
