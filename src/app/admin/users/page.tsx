@@ -29,6 +29,7 @@ export default function AdminUsersPage() {
   const [form, setForm] = useState({ username: "", name: "", email: "", password: "", role: "USER", creditAsset: "USD", creditAmount: "" })
   const [historyEntries, setHistoryEntries] = useState<HistoryEntry[]>([])
   const [error, setError] = useState("")
+  const [deletingId, setDeletingId] = useState<string | null>(null)
 
   const addEntry = () => {
     setHistoryEntries([...historyEntries, { type: "deposit", assetType: "USD", amount: "", status: "completed", date: new Date().toISOString().slice(0, 16), note: "" }])
@@ -76,6 +77,18 @@ export default function AdminUsersPage() {
       setHistoryEntries([])
     } else {
       setError(data.error || "Failed to create user")
+    }
+  }
+
+  const handleDelete = async (userId: string) => {
+    const res = await fetch(`/api/admin/users/${userId}`, { method: "DELETE" })
+    const data = await res.json()
+    if (res.ok) {
+      setUsers((prev) => prev.filter((u) => u.id !== userId))
+      setDeletingId(null)
+    } else {
+      alert(data.error || "Failed to delete user")
+      setDeletingId(null)
     }
   }
 
@@ -180,6 +193,7 @@ export default function AdminUsersPage() {
                 <th className="p-3">Verified</th>
                 <th className="p-3">Txns</th>
                 <th className="p-3">Joined</th>
+                <th className="p-3 w-20">Action</th>
               </tr>
             </thead>
             <tbody>
@@ -200,11 +214,44 @@ export default function AdminUsersPage() {
                   </td>
                   <td className="p-3 text-zinc-400">{u._count.transactions}</td>
                   <td className="p-3 text-zinc-500">{new Date(u.createdAt).toLocaleDateString()}</td>
+                  <td className="p-3">
+                    {u.role !== "ADMIN" && (
+                      <button
+                        onClick={() => setDeletingId(u.id)}
+                        className="text-xs text-red-400 hover:text-red-300"
+                      >
+                        Delete
+                      </button>
+                    )}
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
+        {deletingId && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
+            <div className="rounded-xl border p-6 bg-zinc-900 max-w-sm w-full mx-4" style={{ borderColor: "var(--brand-border)" }}>
+              <h3 className="text-lg font-semibold mb-2">Delete User</h3>
+              <p className="text-sm text-zinc-400 mb-4">Are you sure you want to delete this user? All associated data (transactions, holdings, notifications, messages) will be permanently removed. This action cannot be undone.</p>
+              <div className="flex gap-2 justify-end">
+                <button
+                  onClick={() => setDeletingId(null)}
+                  className="rounded-lg px-4 py-2 text-sm font-medium text-zinc-400 border border-zinc-700"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => handleDelete(deletingId)}
+                  className="rounded-lg px-4 py-2 text-sm font-medium text-white bg-red-600 hover:bg-red-500"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
       </main>
     </>
   )
