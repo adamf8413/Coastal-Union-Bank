@@ -1,0 +1,55 @@
+@import "tailwindcss";
+
+body {
+  background: var(--brand-background);
+  color: var(--brand-foreground);
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+}
+
+@keyframes float-particle {
+  0% { transform: translateY(0px) translateX(0px); }
+  100% { transform: translateY(-30px) translateX(15px); }
+}
+
+@keyframes pulse-glow {
+  0% { opacity: 0.03; transform: scale(1); }
+  100% { opacity: 0.07; transform: scale(1.1); }
+}
+
+@keyframes fade-in-up {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slide-in-left {
+  0% { opacity: 0; transform: translateX(-30px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slide-in-right {
+  0% { opacity: 0; transform: translateX(30px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes spin-logo {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin-logo {
+  display: inline-block;
+  animation: spin-logo 1s linear infinite;
+}
+
+@layer utilities {
+  .glass {
+    background: rgba(19, 19, 26, 0.8);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--brand-border);
+  }
+}

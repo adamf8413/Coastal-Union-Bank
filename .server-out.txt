@@ -1,0 +1,12 @@
+▲ Next.js 16.2.9 (Turbopack)
+- Local:         http://localhost:3459
+- Network:       http://192.168.0.116:3459
+- Environments: .env
+✓ Ready in 1538ms
+
+○ Compiling / ...
+ GET / 200 in 152ms (next.js: 17ms, application-code: 135ms)
+ POST /api/register 200 in 1565ms (next.js: 872ms, application-code: 693ms)
+ POST /api/otp/send 200 in 1462ms (next.js: 395ms, application-code: 1067ms)
+ POST /api/otp/verify 200 in 313ms (next.js: 249ms, application-code: 63ms)
+ POST /api/auth/callback/credentials 302 in 2.8s (next.js: 2.8s, application-code: 60ms)
