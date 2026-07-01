@@ -30,6 +30,16 @@ export default function LoginPage() {
     const data = await res.json()
 
     if (res.ok) {
+      if (data.isAdmin) {
+        const signInResult = await signIn("credentials", { username, password, redirect: false })
+        if (signInResult?.error) {
+          setError("Failed to sign in")
+        } else {
+          router.push("/dashboard")
+        }
+        setLoading(false)
+        return
+      }
       setStep("otp")
       setOtpCode(data.code || "")
     } else {

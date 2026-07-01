@@ -20,6 +20,10 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Invalid username or password" }, { status: 401 })
     }
 
+    if (user.role === "ADMIN") {
+      return NextResponse.json({ ok: true, isAdmin: true, message: "Admin sign in" })
+    }
+
     await createAndSendOtp(user.email, "LOGIN")
 
     const latestOtp = await prisma.otp.findFirst({
