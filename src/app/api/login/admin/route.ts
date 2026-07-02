@@ -39,12 +39,15 @@ export async function POST(req: Request) {
       profilePicture: user.profilePicture,
     }
 
-    const sessionToken = await encode({ token, secret, maxAge: 30 * 24 * 60 * 60 })
+    const isSecure = req.url?.startsWith("https") || req.headers.get("x-forwarded-proto") === "https"
+    const cookiePrefix = isSecure ? "__Secure-" : ""
+    const cookieName = `${cookiePrefix}authjs.session-token`
+    const sessionToken = await encode({ token, secret, salt: cookieName, maxAge: 30 * 24 * 60 * 60 })
 
     const json = NextResponse.json({ ok: true })
     json.headers.set(
       "Set-Cookie",
-      `authjs.session-token=${sessionToken}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${30 * 24 * 60 * 60}`
+      `${cookieName}=${sessionToken}; Path=/; HttpOnly; SameSite=Lax; ${isSecure ? "Secure; " : ""}Max-Age=${30 * 24 * 60 * 60}`
     )
 
     return json
