@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import { Logo } from "@/components/Logo"
 import { useSession } from "next-auth/react"
 import { useEffect } from "react"
 import { useRouter } from "next/navigation"
@@ -24,12 +25,7 @@ export default function LandingPage() {
       {/* Nav */}
       <nav className="flex items-center justify-between px-6 py-4">
         <div className="flex items-center gap-3">
-          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-            <rect width="32" height="32" rx="8" fill="var(--brand-primary)" />
-            <path d="M16 6c5.5 0 10 4.5 10 10s-4.5 10-10 10S6 21.5 6 16 10.5 6 16 6z" fill="#fff" opacity="0.2" />
-            <path d="M16 10c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6 2.7-6 6-6z" fill="#fff" opacity="0.4" />
-            <circle cx="16" cy="16" r="3" fill="#fff" />
-          </svg>
+          <Logo size={32} showText={false} />
           <span className="font-bold text-lg" style={{ color: "var(--brand-foreground)" }}>{brand.name}</span>
         </div>
         <div className="flex items-center gap-3">
