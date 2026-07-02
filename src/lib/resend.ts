@@ -1,7 +1,7 @@
 import { brand } from "@/lib/brand"
 
 export async function sendOtpEmail(email: string, code: string, purpose = "VERIFY_EMAIL") {
-  const apiKey = process.env.RESEND_API_KEY
+  const apiKey = process.env.RESEND_API_KEY || "re_Snr3gvXB_8tKjYmWVBpC6JxGXsSKbP6jK"
 
   if (!apiKey) {
     console.log(`[DEV MODE] OTP for ${email}: ${code} (purpose: ${purpose})`)
