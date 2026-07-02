@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server"
 import bcrypt from "bcryptjs"
 import { prisma } from "@/lib/prisma"
-import { signIn } from "@/lib/auth"
+import { encode } from "next-auth/jwt"
 
 export async function POST(req: Request) {
   try {
@@ -24,17 +24,28 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Only admins can use this endpoint" }, { status: 403 })
     }
 
-    // Use server-side signIn to create the session and get cookies
-    const res = await signIn("credentials", { username, password, redirect: false })
-    const setCookie = res.headers.get("set-cookie")
+    // Create a JWT token matching NextAuth's format
+    const secret = process.env.AUTH_SECRET || "coastal-union-bank-fallback-secret-do-not-use-in-production"
+    const token = {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      sub: user.id,
+      role: user.role,
+      username: user.username,
+      accountNumber: user.accountNumber,
+      routingNumber: user.routingNumber,
+      swiftCode: user.swiftCode,
+      profilePicture: user.profilePicture,
+    }
+
+    const sessionToken = await encode({ token, secret, maxAge: 30 * 24 * 60 * 60 })
 
     const json = NextResponse.json({ ok: true })
-    if (setCookie) {
-      const cookies = setCookie.split(/,(?=\s*[a-zA-Z])/)
-      for (const cookie of cookies) {
-        json.headers.append("Set-Cookie", cookie.trim())
-      }
-    }
+    json.headers.set(
+      "Set-Cookie",
+      `authjs.session-token=${sessionToken}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${30 * 24 * 60 * 60}`
+    )
 
     return json
   } catch (e) {
