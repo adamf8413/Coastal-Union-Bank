@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client'
 const p = new PrismaClient()
-const r = await fetch('http://localhost:3000/api/login/otp-init', {
+const r = await fetch('/api/login/otp-init', {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify({ username: 'demo', password: 'demo1234' })
