@@ -125,10 +125,10 @@ export default function LandingPage() {
             </div>
           </div>
 
-          {/* Right: Lady holding ATM card */}
-          <div className="flex-shrink-0 relative">
+          {/* Right: Bank building illustration */}
+          <div className="flex-shrink-0 relative max-w-full">
             <div className="relative" style={{ animation: "float 6s ease-in-out infinite" }}>
-              <svg width="320" height="380" viewBox="0 0 320 380" fill="none">
+              <svg width="320" height="380" viewBox="0 0 320 380" fill="none" style={{ maxWidth: "100%", height: "auto" }}>
                 {/* Ground */}
                 <rect x="0" y="290" width="320" height="10" rx="4" fill="var(--brand-primary)" opacity="0.15" />
                 <ellipse cx="160" cy="330" rx="140" ry="8" fill="black" opacity="0.08" />

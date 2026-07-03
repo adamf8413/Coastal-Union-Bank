@@ -143,30 +143,30 @@ export default function AdminUsersPage() {
               <summary className="text-sm text-zinc-400 cursor-pointer">Transaction History (optional)</summary>
               <div className="mt-3 space-y-2">
                 {historyEntries.map((e, i) => (
-                  <div key={i} className="flex gap-2 items-center text-xs">
+                  <div key={i} className="grid grid-cols-2 sm:flex sm:gap-2 items-center text-xs gap-1 p-2 rounded-lg" style={{ backgroundColor: "rgba(255,255,255,0.02)" }}>
                     <select value={e.type} onChange={(v) => updateEntry(i, "type", v.target.value)}
-                      className="rounded border px-2 py-1 bg-zinc-900 w-24" style={{ borderColor: "var(--brand-border)" }}>
+                      className="rounded border px-2 py-1 bg-zinc-900 w-full sm:w-24" style={{ borderColor: "var(--brand-border)" }}>
                       <option value="deposit">Deposit</option>
                       <option value="withdrawal">Withdrawal</option>
                       <option value="transfer">Transfer</option>
                     </select>
                     <select value={e.assetType} onChange={(v) => updateEntry(i, "assetType", v.target.value)}
-                      className="rounded border px-2 py-1 bg-zinc-900 w-20" style={{ borderColor: "var(--brand-border)" }}>
+                      className="rounded border px-2 py-1 bg-zinc-900 w-full sm:w-20" style={{ borderColor: "var(--brand-border)" }}>
                       {["USD", "EUR", "GBP", "BTC", "ETH", "SOL"].map(a => <option key={a} value={a}>{a}</option>)}
                     </select>
                     <input type="number" placeholder="Amount" value={e.amount} onChange={(v) => updateEntry(i, "amount", v.target.value)}
-                      className="rounded border px-2 py-1 bg-zinc-900 w-24" style={{ borderColor: "var(--brand-border)" }} min="0" step="any" />
+                      className="rounded border px-2 py-1 bg-zinc-900 w-full sm:w-24" style={{ borderColor: "var(--brand-border)" }} min="0" step="any" />
                     <select value={e.status} onChange={(v) => updateEntry(i, "status", v.target.value)}
-                      className="rounded border px-2 py-1 bg-zinc-900 w-24" style={{ borderColor: "var(--brand-border)" }}>
+                      className="rounded border px-2 py-1 bg-zinc-900 w-full sm:w-24" style={{ borderColor: "var(--brand-border)" }}>
                       <option value="completed">Completed</option>
                       <option value="pending">Pending</option>
                       <option value="failed">Failed</option>
                     </select>
                     <input type="datetime-local" value={e.date} onChange={(v) => updateEntry(i, "date", v.target.value)}
-                      className="rounded border px-2 py-1 bg-zinc-900 w-40" style={{ borderColor: "var(--brand-border)" }} />
+                      className="rounded border px-2 py-1 bg-zinc-900 w-full sm:w-40" style={{ borderColor: "var(--brand-border)" }} />
                     <input type="text" placeholder="Note" value={e.note} onChange={(v) => updateEntry(i, "note", v.target.value)}
-                      className="rounded border px-2 py-1 bg-zinc-900 w-28" style={{ borderColor: "var(--brand-border)" }} />
-                    <button type="button" onClick={() => removeEntry(i)} className="text-red-400 hover:text-red-300">✕</button>
+                      className="rounded border px-2 py-1 bg-zinc-900 w-full sm:w-28" style={{ borderColor: "var(--brand-border)" }} />
+                    <button type="button" onClick={() => removeEntry(i)} className="text-red-400 hover:text-red-300 col-span-2 sm:col-auto justify-self-end">✕</button>
                   </div>
                 ))}
                 <button type="button" onClick={addEntry} className="text-xs text-indigo-400 hover:text-indigo-300">+ Add transaction</button>

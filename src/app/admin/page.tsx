@@ -215,7 +215,7 @@ export default function AdminDashboardPage() {
                         {p.amount} {p.assetType}
                         {p.note && <span className="text-zinc-500"> · {p.note}</span>}
                       </p>
-                      <p className="text-xs text-zinc-500">
+                      <p className="text-xs text-zinc-500 break-words">
                         {p.transferType === "international" ? "🌍 International" : "📍 Local"}
                         {p.accountName && <span> · {p.accountName}</span>}
                         {p.country && <span> · {p.country}</span>}
@@ -290,7 +290,7 @@ export default function AdminDashboardPage() {
 
             <div>
               <label className="block text-sm text-zinc-400 mb-2">Asset</label>
-              <div className="flex gap-2">
+              <div className="flex gap-2 flex-wrap">
                 {ASSETS.map((asset) => (
                   <button
                     key={asset}

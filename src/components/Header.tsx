@@ -20,6 +20,7 @@ export function Header() {
   const { data: session } = useSession()
   const [notifs, setNotifs] = useState<{ id: string; title: string; message: string; read: boolean }[]>([])
   const [showNotifs, setShowNotifs] = useState(false)
+  const [showMobileMenu, setShowMobileMenu] = useState(false)
   const prevUnread = useRef(0)
 
   const playNotificationSound = () => {
@@ -124,6 +125,12 @@ export function Header() {
           ))}
         </nav>
 
+        {session?.user && (
+          <button onClick={() => setShowMobileMenu(true)} className="md:hidden w-8 h-8 rounded-full bg-zinc-800 flex items-center justify-center text-xs overflow-hidden">
+            <span>{(session.user.name || (session.user as any).username || "?")[0].toUpperCase()}</span>
+          </button>
+        )}
+
         <div className="hidden md:flex items-center gap-3">
           {session?.user && (
             <>
@@ -171,6 +178,56 @@ export function Header() {
             </>
           )}
         </div>
+
+        {showMobileMenu && session?.user && (
+          <div className="fixed inset-0 z-50 md:hidden" onClick={() => setShowMobileMenu(false)}>
+            <div className="absolute inset-0 bg-black/50" />
+            <div className="absolute bottom-0 left-0 right-0 rounded-t-xl border border-zinc-700 bg-zinc-900 p-6 shadow-xl" onClick={e => e.stopPropagation()}>
+              <div className="flex items-center gap-3 mb-6 pb-4" style={{ borderBottom: "1px solid var(--brand-border)" }}>
+                <div className="w-10 h-10 rounded-full bg-zinc-800 flex items-center justify-center text-sm font-bold overflow-hidden">
+                  {(session.user as any)?.profilePicture ? (
+                    <img src={(session.user as any).profilePicture} alt="" className="w-full h-full object-cover" />
+                  ) : (
+                    <span>{((session.user.name || (session.user as any).username || "?")[0]).toUpperCase()}</span>
+                  )}
+                </div>
+                <div>
+                  <div className="font-medium">{session.user.name || (session.user as any).username}</div>
+                  <div className="text-xs text-zinc-500">{session.user.email}</div>
+                </div>
+              </div>
+              <div className="space-y-2">
+                <Link href="/settings" onClick={() => setShowMobileMenu(false)} className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-zinc-300 hover:bg-zinc-800 transition-colors">
+                  <span className="text-lg">⚙</span> Settings
+                </Link>
+                <div className="relative">
+                  <button onClick={() => { setShowNotifs(!showNotifs); requestNotifPermission() }} className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-zinc-300 hover:bg-zinc-800 transition-colors">
+                    <span className="text-lg">🔔</span> Notifications
+                    {unread > 0 && <span className="ml-auto w-5 h-5 rounded-full bg-red-500 text-white text-[10px] flex items-center justify-center font-bold">{unread > 9 ? "9+" : unread}</span>}
+                  </button>
+                  {showNotifs && (
+                    <div className="mt-1 rounded-lg border border-zinc-700 bg-zinc-800 max-h-64 overflow-y-auto">
+                      {notifs.length === 0 ? (
+                        <div className="p-3 text-sm text-zinc-500 text-center">No notifications</div>
+                      ) : (
+                        notifs.map(n => (
+                          <div key={n.id} className={`p-3 border-b border-zinc-700 text-sm cursor-pointer ${n.read ? 'opacity-50' : ''}`} onClick={() => markRead(n.id)}>
+                            <div className="text-zinc-200 font-medium text-xs">{n.title}</div>
+                            <div className="text-zinc-400 text-xs mt-0.5">{n.message}</div>
+                          </div>
+                        ))
+                      )}
+                    </div>
+                  )}
+                </div>
+                <hr className="border-zinc-700 my-2" />
+                <button onClick={() => signOut({ callbackUrl: "/login" })} className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-red-400 hover:bg-zinc-800 transition-colors">
+                  <span className="text-lg">↩</span> Sign Out
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </header>
   )

@@ -334,16 +334,16 @@ export default function SendPage() {
               {amount} {assetType} sent to <strong>{fullName}</strong>
             </p>
             {note && <p className="text-sm text-zinc-500">Note: {note}</p>}
-            <div className="flex gap-3 pt-4">
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 pt-4">
               <button
                 onClick={() => router.push(`/receipt/${transferId}`)}
-                className="flex-1 rounded-lg bg-indigo-600 py-3 font-medium hover:bg-indigo-500 transition-colors"
+                className="w-full sm:flex-1 rounded-lg bg-indigo-600 py-3 font-medium hover:bg-indigo-500 transition-colors"
               >
                 View Receipt
               </button>
               <button
                 onClick={() => router.push("/transactions")}
-                className="flex-1 rounded-lg border border-zinc-700 py-3 font-medium text-zinc-400 hover:text-zinc-200 transition-colors"
+                className="w-full sm:flex-1 rounded-lg border border-zinc-700 py-3 font-medium text-zinc-400 hover:text-zinc-200 transition-colors"
               >
                 History
               </button>
@@ -363,7 +363,7 @@ export default function SendPage() {
                   setCode("")
                   setError("")
                 }}
-                className="flex-1 rounded-lg border border-zinc-700 py-3 font-medium text-zinc-400 hover:text-zinc-200 transition-colors"
+                className="w-full sm:flex-1 rounded-lg border border-zinc-700 py-3 font-medium text-zinc-400 hover:text-zinc-200 transition-colors"
               >
                 Send Again
               </button>
