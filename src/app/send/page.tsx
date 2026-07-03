@@ -45,7 +45,7 @@ export default function SendPage() {
       body: JSON.stringify({
         recipientUsername: fullName,
         assetType, amount: parseFloat(amount), note,
-        accountNumber: transferType === "local" ? localAccountNumber : undefined,
+        accountNumber: localAccountNumber || undefined,
         routingNumber, swiftCode, recipientBank,
         transferType, accountName: fullName, bankAddress,
         country: transferType === "international" ? country : undefined,
@@ -162,6 +162,21 @@ export default function SendPage() {
                 required
               />
             </div>
+
+            {/* International only: Account Number / IBAN */}
+            {transferType === "international" && (
+              <div>
+                <label className="block text-sm text-zinc-400 mb-1">Account Number / IBAN</label>
+                <input
+                  type="text"
+                  value={localAccountNumber}
+                  onChange={(e) => setLocalAccountNumber(e.target.value)}
+                  className="w-full rounded-lg border border-zinc-700 bg-zinc-900 px-4 py-3 focus:outline-none focus:border-indigo-500"
+                  placeholder="Recipient account number or IBAN"
+                  required
+                />
+              </div>
+            )}
 
             {/* International only: Country */}
             {transferType === "international" && (
