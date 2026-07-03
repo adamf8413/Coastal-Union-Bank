@@ -33,6 +33,12 @@ export default function LandingPage() {
             Sign In
           </Link>
           <Link
+            href="/login"
+            className="text-sm font-medium text-zinc-300 hover:text-white transition-colors px-3 py-1.5 rounded-lg border border-zinc-600 hover:border-zinc-500"
+          >
+            Admin
+          </Link>
+          <Link
             href="/register"
             className="text-sm font-medium text-white px-4 py-2 rounded-lg transition-colors"
             style={{ backgroundColor: "var(--brand-primary)" }}
