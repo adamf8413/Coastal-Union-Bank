@@ -44,6 +44,11 @@ export default function AdminDashboardPage() {
   const [creditNote, setCreditNote] = useState("")
   const [creditResult, setCreditResult] = useState<string | null>(null)
   const [creditLoading, setCreditLoading] = useState(false)
+  const [withdrawAssetType, setWithdrawAssetType] = useState("USD")
+  const [withdrawAmount, setWithdrawAmount] = useState("")
+  const [withdrawNote, setWithdrawNote] = useState("")
+  const [withdrawResult, setWithdrawResult] = useState<string | null>(null)
+  const [withdrawLoading, setWithdrawLoading] = useState(false)
   const [error, setError] = useState("")
   const [pendingCotps, setPendingCotps] = useState<PendingCotp[]>([])
   const [copRevealed, setCopRevealed] = useState<Record<string, boolean>>({})
@@ -109,6 +114,32 @@ export default function AdminDashboardPage() {
       setError(data.error || "Failed to credit")
     }
     setCreditLoading(false)
+  }
+
+  const handleWithdraw = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!selectedUserId || !withdrawAmount) return
+    setWithdrawLoading(true)
+    setError("")
+    setWithdrawResult(null)
+
+    const res = await fetch("/api/admin/withdraw", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ userId: selectedUserId, assetType: withdrawAssetType, amount: parseFloat(withdrawAmount), note: withdrawNote }),
+    })
+    const data = await res.json()
+
+    if (res.ok) {
+      const uname = users.find((u) => u.id === selectedUserId)?.username || "User"
+      setWithdrawResult(`Withdrew ${withdrawAmount} ${withdrawAssetType} from ${uname}`)
+      setWithdrawAmount("")
+      setWithdrawNote("")
+      refreshHoldings()
+    } else {
+      setError(data.error || "Failed to withdraw")
+    }
+    setWithdrawLoading(false)
   }
 
   if (status === "loading" || !isAdmin) {
@@ -345,6 +376,88 @@ export default function AdminDashboardPage() {
               style={{ backgroundColor: "var(--brand-primary)" }}
             >
               {creditLoading ? <span className="animate-spin-logo text-lg">⟳</span> : "Credit User"}
+            </button>
+          </form>
+        </div>
+
+        {/* Withdraw from User */}
+        <div className="rounded-xl border p-6 mt-6" style={{ borderColor: "var(--brand-border)" }}>
+          <h2 className="text-lg font-semibold mb-4">Withdraw from User</h2>
+          <form onSubmit={handleWithdraw} className="space-y-4">
+            <div>
+              <label className="block text-sm text-zinc-400 mb-1">User</label>
+              <select
+                value={selectedUserId}
+                onChange={(e) => setSelectedUserId(e.target.value)}
+                className="w-full rounded-lg border px-3 py-2 text-sm bg-zinc-900"
+                style={{ borderColor: "var(--brand-border)" }}
+                required
+              >
+                {users.map((u) => (
+                  <option key={u.id} value={u.id}>
+                    {u.username} {u.name ? `(${u.name})` : ""}{u.id === adminId ? " (you)" : ""}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-sm text-zinc-400 mb-2">Asset</label>
+              <div className="flex gap-2 flex-wrap">
+                {ASSETS.map((asset) => (
+                  <button
+                    key={asset}
+                    type="button"
+                    onClick={() => setWithdrawAssetType(asset)}
+                    className={`px-3 py-1.5 rounded-lg text-xs border transition-colors ${
+                      withdrawAssetType === asset
+                        ? "border-indigo-500 bg-indigo-500/10 text-indigo-400"
+                        : "border-zinc-700 text-zinc-400 hover:border-zinc-500"
+                    }`}
+                  >
+                    {asset}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm text-zinc-400 mb-1">Amount</label>
+              <input
+                type="number"
+                value={withdrawAmount}
+                onChange={(e) => setWithdrawAmount(e.target.value)}
+                className="w-full rounded-lg border px-3 py-2 text-sm bg-zinc-900 focus:outline-none focus:border-indigo-500"
+                style={{ borderColor: "var(--brand-border)" }}
+                placeholder="0.00"
+                min="0"
+                step="any"
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm text-zinc-400 mb-1">Note (optional)</label>
+              <input
+                type="text"
+                value={withdrawNote}
+                onChange={(e) => setWithdrawNote(e.target.value)}
+                className="w-full rounded-lg border px-3 py-2 text-sm bg-zinc-900 focus:outline-none"
+                style={{ borderColor: "var(--brand-border)" }}
+                placeholder="Admin withdrawal"
+              />
+            </div>
+
+            {error && <p className="text-sm text-red-400">{error}</p>}
+            {withdrawResult && <p className="text-sm text-emerald-400">{withdrawResult}</p>}
+
+            <button
+              type="submit"
+              disabled={withdrawLoading || !withdrawAmount}
+              className="w-full rounded-lg py-2 text-sm font-medium text-white disabled:opacity-50 transition-colors"
+              style={{ backgroundColor: "var(--brand-primary)" }}
+            >
+              {withdrawLoading ? <span className="animate-spin-logo text-lg">⟳</span> : "Withdraw"}
             </button>
           </form>
         </div>
