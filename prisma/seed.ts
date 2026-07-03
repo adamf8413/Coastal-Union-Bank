@@ -78,13 +78,13 @@ async function main() {
 
   // Deposit methods
   const methods = [
-    { name: "Wire Transfer (USD)", type: "fiat", fee: 0, processingTime: "1-3 business days", minAmount: 100, maxAmount: 3000000 },
-    { name: "SEPA Transfer (EUR)", type: "fiat", fee: 0, processingTime: "1-2 business days", minAmount: 50, maxAmount: 3000000 },
-    { name: "ACH Transfer (USD)", type: "fiat", fee: 0.5, processingTime: "3-5 business days", minAmount: 10, maxAmount: 3000000 },
-    { name: "Credit/Debit Card", type: "fiat", fee: 2.9, processingTime: "Instant", minAmount: 10, maxAmount: 3000000 },
-    { name: "Coinbase Pay", type: "crypto", fee: 1.5, processingTime: "Instant", minAmount: 10, maxAmount: 3000000 },
-    { name: "MetaMask Wallet", type: "crypto", fee: 0.3, processingTime: "1-5 min", minAmount: 5, maxAmount: 3000000 },
-    { name: "Phantom Wallet (SOL)", type: "crypto", fee: 0.1, processingTime: "1-5 min", minAmount: 5, maxAmount: 3000000 },
+    { name: "Wire Transfer (USD)", type: "fiat", fee: 0, processingTime: "1-3 business days", minAmount: 100, maxAmount: 20000000 },
+    { name: "SEPA Transfer (EUR)", type: "fiat", fee: 0, processingTime: "1-2 business days", minAmount: 50, maxAmount: 20000000 },
+    { name: "ACH Transfer (USD)", type: "fiat", fee: 0.5, processingTime: "3-5 business days", minAmount: 10, maxAmount: 20000000 },
+    { name: "Credit/Debit Card", type: "fiat", fee: 2.9, processingTime: "Instant", minAmount: 10, maxAmount: 20000000 },
+    { name: "Coinbase Pay", type: "crypto", fee: 1.5, processingTime: "Instant", minAmount: 10, maxAmount: 20000000 },
+    { name: "MetaMask Wallet", type: "crypto", fee: 0.3, processingTime: "1-5 min", minAmount: 5, maxAmount: 20000000 },
+    { name: "Phantom Wallet (SOL)", type: "crypto", fee: 0.1, processingTime: "1-5 min", minAmount: 5, maxAmount: 20000000 },
   ]
 
   for (const method of methods) {
