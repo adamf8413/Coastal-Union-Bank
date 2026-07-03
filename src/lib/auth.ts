@@ -1,6 +1,5 @@
 import NextAuth from "next-auth"
 import Credentials from "next-auth/providers/credentials"
-import bcrypt from "bcryptjs"
 import { prisma } from "@/lib/prisma"
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
@@ -29,6 +28,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         })
         if (!user) return null
 
+        const bcrypt = require("bcryptjs") as typeof import("bcryptjs")
         const passwordMatch = await bcrypt.compare(password, user.password)
         if (!passwordMatch) return null
 
