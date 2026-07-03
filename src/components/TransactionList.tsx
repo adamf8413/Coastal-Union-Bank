@@ -19,7 +19,7 @@ const statusColors: Record<string, string> = {
   completed: "bg-emerald-500/10 text-emerald-400",
   pending: "bg-yellow-500/10 text-yellow-400",
   pending_otp: "bg-yellow-500/10 text-yellow-400",
-  pending_cop: "bg-purple-500/10 text-purple-400",
+  pending_cot: "bg-purple-500/10 text-purple-400",
   failed: "bg-red-500/10 text-red-400",
 }
 

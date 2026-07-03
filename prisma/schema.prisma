@@ -115,7 +115,7 @@ model Transaction {
   fee            Float          @default(0)
   status         String         @default("pending")
   note           String?
-  cop            String?
+  cot            String?
   accountNumber  String?
   routingNumber  String?
   swiftCode      String?

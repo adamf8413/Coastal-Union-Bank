@@ -17,10 +17,10 @@ export async function POST(req: Request) {
   if (!tx || tx.userId !== session.user.id) {
     return NextResponse.json({ error: "Transfer not found" }, { status: 404 })
   }
-  if (tx.status !== "pending_cop") {
+  if (tx.status !== "pending_cot") {
     return NextResponse.json({ error: "Transfer already processed" }, { status: 400 })
   }
-  if (tx.cop !== code) {
+  if (tx.cot !== code) {
     return NextResponse.json({ error: "Invalid confirmation code" }, { status: 400 })
   }
 
@@ -56,7 +56,7 @@ export async function POST(req: Request) {
         }),
     prisma.transaction.update({
       where: { id: tx.id },
-      data: { status: "completed", cop: null },
+      data: { status: "completed", cot: null },
     }),
   ])
 

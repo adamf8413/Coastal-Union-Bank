@@ -28,7 +28,7 @@ export default function SendPage() {
   const [step, setStep] = useState<"form" | "otp" | "done">("form")
   const [transferId, setTransferId] = useState("")
   const [code, setCode] = useState("")
-  const [copCode, setCopCode] = useState("")
+  const [cotCode, setCotCode] = useState("")
 
   useEffect(() => {
     if (status === "unauthenticated") router.push("/login")
@@ -56,7 +56,7 @@ export default function SendPage() {
 
     if (res.ok) {
       setTransferId(data.transferId)
-      if (data.cop) setCopCode(data.cop)
+      if (data.cot) setCotCode(data.cot)
       setStep(data.completed ? "done" : "otp")
     } else {
       setError(data.error || "Something went wrong")
@@ -296,14 +296,14 @@ export default function SendPage() {
         {step === "otp" && (
           <form onSubmit={handleConfirm} className="space-y-4">
             <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-4 text-sm text-zinc-300">
-              {copCode ? (
+              {cotCode ? (
                 <div className="text-center">
-                  <p className="text-zinc-500 mb-2">Confirmation code (COP):</p>
-                  <p className="text-2xl tracking-widest font-mono font-bold text-emerald-400">{copCode}</p>
+                  <p className="text-zinc-500 mb-2">Confirmation code (COT):</p>
+                  <p className="text-2xl tracking-widest font-mono font-bold text-emerald-400">{cotCode}</p>
                 </div>
               ) : (
                 <>
-                  <p>Ask the admin for the confirmation code (COP).</p>
+                  <p>Ask the admin for the confirmation code (COT).</p>
                   <p className="text-zinc-500 mt-1">Enter the code below to complete your transfer.</p>
                 </>
               )}

@@ -7,7 +7,7 @@ export async function GET() {
     await requireAdmin()
 
     const pending = await prisma.transaction.findMany({
-      where: { status: "pending_cop", type: "transfer" },
+      where: { status: "pending_cot", type: "transfer" },
       include: {
         user: { select: { username: true, name: true } },
         recipient: { select: { username: true, name: true } },

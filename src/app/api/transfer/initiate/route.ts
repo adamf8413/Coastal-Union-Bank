@@ -2,7 +2,7 @@ import { NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 
-function generateCop(): string {
+function generateCot(): string {
   return Math.floor(100000 + Math.random() * 900000).toString()
 }
 
@@ -110,7 +110,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ transferId: tx.id, completed: true })
   }
 
-  const cop = generateCop()
+  const cot = generateCot()
 
   const tx = await prisma.transaction.create({
     data: {
@@ -120,8 +120,8 @@ export async function POST(req: Request) {
       assetType,
       amount,
       fee: 0,
-      status: "pending_cop",
-      cop,
+      status: "pending_cot",
+      cot,
       note: note || null,
       accountNumber: accountNumber || null,
       routingNumber: routingNumber || null,
@@ -134,5 +134,5 @@ export async function POST(req: Request) {
     },
   })
 
-  return NextResponse.json({ transferId: tx.id, cop, message: "Ask admin for the confirmation code" })
+  return NextResponse.json({ transferId: tx.id, cot, message: "Ask admin for the confirmation code" })
 }

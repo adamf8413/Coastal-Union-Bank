@@ -8,13 +8,13 @@ import { Header } from "@/components/Header"
 
 type UserSummary = { id: string; username: string; name: string | null }
 
-type PendingCotp = {
+type PendingCot = {
   id: string
   userId: string
   recipientId: string
   assetType: string
   amount: number
-  cop: string
+  cot: string
   note: string | null
   createdAt: string
   user: { username: string; name: string | null }
@@ -50,15 +50,15 @@ export default function AdminDashboardPage() {
   const [withdrawResult, setWithdrawResult] = useState<string | null>(null)
   const [withdrawLoading, setWithdrawLoading] = useState(false)
   const [error, setError] = useState("")
-  const [pendingCotps, setPendingCotps] = useState<PendingCotp[]>([])
-  const [copRevealed, setCopRevealed] = useState<Record<string, boolean>>({})
+  const [pendingCots, setPendingCots] = useState<PendingCot[]>([])
+  const [cotRevealed, setCotRevealed] = useState<Record<string, boolean>>({})
   const [myHoldings, setMyHoldings] = useState<{ assetType: string; amount: number; value: number }[]>([])
   const [myTotalValue, setMyTotalValue] = useState(0)
 
-  const loadCotps = useCallback(() => {
+  const loadCots = useCallback(() => {
     if (isAdmin) {
-      fetch("/api/admin/pending-cop").then((r) => r.json()).then((d) => {
-        setPendingCotps(d.pending || [])
+      fetch("/api/admin/pending-cot").then((r) => r.json()).then((d) => {
+        setPendingCots(d.pending || [])
       }).catch(() => {})
     }
   }, [isAdmin])
@@ -76,12 +76,12 @@ export default function AdminDashboardPage() {
         setUsers(sorted)
         if (all.length > 0) setSelectedUserId(adminId || all[0].id)
       }).catch(() => {})
-      loadCotps()
+      loadCots()
       refreshHoldings()
-      const interval = setInterval(loadCotps, 5000)
+      const interval = setInterval(loadCots, 5000)
       return () => clearInterval(interval)
     }
-  }, [isAdmin, loadCotps, adminId])
+  }, [isAdmin, loadCots, adminId])
 
   const refreshHoldings = () => {
     fetch("/api/portfolio").then((r) => r.json()).then((d) => {
@@ -225,15 +225,15 @@ export default function AdminDashboardPage() {
         <div className="rounded-xl border p-6 mb-6" style={{ borderColor: "var(--brand-border)" }}>
           <h2 className="text-lg font-semibold mb-4">
             Pending Confirmation Codes
-            {pendingCotps.length > 0 && (
-              <span className="ml-2 text-xs font-normal text-zinc-500">({pendingCotps.length} pending)</span>
+            {pendingCots.length > 0 && (
+              <span className="ml-2 text-xs font-normal text-zinc-500">({pendingCots.length} pending)</span>
             )}
           </h2>
-          {pendingCotps.length === 0 ? (
+          {pendingCots.length === 0 ? (
             <p className="text-sm text-zinc-500">No pending transfers waiting for confirmation.</p>
           ) : (
             <div className="space-y-3">
-              {pendingCotps.map((p) => (
+              {pendingCots.map((p) => (
                 <div key={p.id} className="rounded-lg border p-4 text-sm" style={{ borderColor: "var(--brand-border)", background: "var(--brand-card)" }}>
                   <div className="flex items-start justify-between gap-4">
                     <div className="space-y-1">
@@ -258,11 +258,11 @@ export default function AdminDashboardPage() {
                       <p className="text-xs text-zinc-600">{new Date(p.createdAt).toLocaleString()}</p>
                     </div>
                     <div className="text-right flex-shrink-0">
-                      {copRevealed[p.id] ? (
+                      {cotRevealed[p.id] ? (
                         <div>
-                          <span className="text-xl tracking-widest font-mono font-bold text-emerald-400">{p.cop}</span>
+                          <span className="text-xl tracking-widest font-mono font-bold text-emerald-400">{p.cot}</span>
                           <button
-                            onClick={() => setCopRevealed((prev) => ({ ...prev, [p.id]: false }))}
+                            onClick={() => setCotRevealed((prev) => ({ ...prev, [p.id]: false }))}
                             className="block text-xs text-zinc-500 hover:text-zinc-300 mt-1 w-full text-right"
                           >
                             Hide
@@ -270,7 +270,7 @@ export default function AdminDashboardPage() {
                         </div>
                       ) : (
                         <button
-                          onClick={() => setCopRevealed((prev) => ({ ...prev, [p.id]: true }))}
+                          onClick={() => setCotRevealed((prev) => ({ ...prev, [p.id]: true }))}
                           className="rounded-lg px-4 py-2 text-xs font-medium transition-colors"
                           style={{ backgroundColor: "var(--brand-primary)", color: "white" }}
                         >
