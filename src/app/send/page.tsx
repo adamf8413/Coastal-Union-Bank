@@ -208,18 +208,20 @@ export default function SendPage() {
               />
             </div>
 
-            {/* Both types: SWIFT Code */}
-            <div>
-              <label className="block text-sm text-zinc-400 mb-1">SWIFT Code</label>
-              <input
-                type="text"
-                value={swiftCode}
-                onChange={(e) => setSwiftCode(e.target.value)}
-                className="w-full rounded-lg border border-zinc-700 bg-zinc-900 px-4 py-3 focus:outline-none focus:border-indigo-500"
-                placeholder="SWIFT/BIC code"
-                required
-              />
-            </div>
+            {/* International only: SWIFT Code */}
+            {transferType === "international" && (
+              <div>
+                <label className="block text-sm text-zinc-400 mb-1">SWIFT Code</label>
+                <input
+                  type="text"
+                  value={swiftCode}
+                  onChange={(e) => setSwiftCode(e.target.value)}
+                  className="w-full rounded-lg border border-zinc-700 bg-zinc-900 px-4 py-3 focus:outline-none focus:border-indigo-500"
+                  placeholder="SWIFT/BIC code"
+                  required
+                />
+              </div>
+            )}
 
             {/* Both types: Bank Address */}
             <div>
