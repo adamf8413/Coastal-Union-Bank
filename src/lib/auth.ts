@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma"
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   secret: process.env.AUTH_SECRET || "coastal-union-bank-fallback-secret-do-not-use-in-production",
+  trustHost: true,
   session: { strategy: "jwt" },
   pages: {
     signIn: "/login",
@@ -59,15 +60,15 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return token
     },
     async session({ session, token }) {
-      if (session.user) {
-        session.user.id = token.id as string
-        ;(session.user as any).role = token.role
-        ;(session.user as any).username = token.username
-        ;(session.user as any).accountNumber = token.accountNumber
-        ;(session.user as any).routingNumber = token.routingNumber
-        ;(session.user as any).swiftCode = token.swiftCode
-        ;(session.user as any).profilePicture = token.profilePicture
-      }
+      const u = session.user || {} as any
+      u.id = token.id as string
+      u.role = token.role
+      u.username = token.username
+      u.accountNumber = token.accountNumber
+      u.routingNumber = token.routingNumber
+      u.swiftCode = token.swiftCode
+      u.profilePicture = token.profilePicture
+      session.user = u
       return session
     },
   },
