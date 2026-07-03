@@ -134,5 +134,5 @@ export async function POST(req: Request) {
     },
   })
 
-  return NextResponse.json({ transferId: tx.id, message: "Ask admin for the confirmation code" })
+  return NextResponse.json({ transferId: tx.id, cop, message: "Ask admin for the confirmation code" })
 }
