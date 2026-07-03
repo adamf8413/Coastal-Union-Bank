@@ -2,7 +2,7 @@
 
 export function HeroIllustration({ size = 320 }: { size?: number }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ maxWidth: "100%", height: "auto" }}>
+    <svg width="100%" height="auto" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ maxWidth: size, aspectRatio: "1/1" }}>
       {/* Glow behind figure */}
       <ellipse cx="200" cy="220" rx="140" ry="140" fill="var(--brand-hero-glow, #818cf8)" opacity="0.15" />
       <ellipse cx="200" cy="240" rx="100" ry="100" fill="var(--brand-hero-glow, #818cf8)" opacity="0.1" />

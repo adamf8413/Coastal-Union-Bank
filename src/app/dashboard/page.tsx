@@ -65,7 +65,7 @@ export default function DashboardPage() {
           <AnimatedBackground />
 
           <div className="relative mx-auto max-w-6xl px-4" style={{ zIndex: 1 }}>
-            <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
+            <div className="flex flex-col md:flex-row items-center gap-6 md:gap-12">
               {/* Left: Text */}
               <div className="flex-1 text-center md:text-left" style={{ animation: "fade-in-up 1s ease-out" }}>
                 <div
@@ -139,7 +139,7 @@ export default function DashboardPage() {
 
               {/* Right: Illustration */}
               <div
-                className="flex-shrink-0"
+                className="flex-shrink-0 w-full max-w-[260px] sm:max-w-[320px]"
                 style={{ animation: "slide-in-right 1s ease-out 0.2s both" }}
               >
                 <HeroIllustration size={320} />

@@ -23,24 +23,24 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen flex flex-col" style={{ background: "var(--brand-background)" }}>
       {/* Nav */}
-      <nav className="flex items-center justify-between px-6 py-4">
-        <div className="flex items-center gap-3">
-          <Logo size={32} showText={false} />
-          <span className="font-bold text-lg" style={{ color: "var(--brand-foreground)" }}>{brand.name}</span>
+      <nav className="flex items-center justify-between px-4 sm:px-6 py-4">
+        <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+          <Logo size={28} showText={false} />
+          <span className="font-bold text-sm sm:text-lg truncate" style={{ color: "var(--brand-foreground)" }}>{brand.shortName}</span>
         </div>
-        <div className="flex items-center gap-3">
-          <Link href="/login" className="text-sm text-zinc-400 hover:text-zinc-200 transition-colors px-4 py-2">
+        <div className="flex items-center gap-1 sm:gap-3 flex-shrink-0">
+          <Link href="/login" className="text-xs sm:text-sm text-zinc-400 hover:text-zinc-200 transition-colors px-2 sm:px-4 py-2">
             Sign In
           </Link>
           <Link
             href="/login"
-            className="text-sm font-medium text-zinc-300 hover:text-white transition-colors px-3 py-1.5 rounded-lg border border-zinc-600 hover:border-zinc-500"
+            className="text-xs sm:text-sm font-medium text-zinc-300 hover:text-white transition-colors px-2 sm:px-3 py-1.5 rounded-lg border border-zinc-600 hover:border-zinc-500"
           >
             Admin
           </Link>
           <Link
             href="/register"
-            className="text-sm font-medium text-white px-4 py-2 rounded-lg transition-colors"
+            className="text-xs sm:text-sm font-medium text-white px-3 sm:px-4 py-2 rounded-lg transition-colors"
             style={{ backgroundColor: "var(--brand-primary)" }}
           >
             Get Started
@@ -49,7 +49,7 @@ export default function LandingPage() {
       </nav>
 
       {/* Hero */}
-      <main className="flex-1 flex items-center justify-center px-6 relative overflow-hidden">
+      <main className="flex-1 flex items-center justify-center px-4 sm:px-6 relative overflow-hidden">
         {/* Flying Birds */}
         <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
           <div className="bird bird-1">
@@ -75,7 +75,7 @@ export default function LandingPage() {
           </div>
         </div>
 
-        <div className="flex flex-col lg:flex-row items-center gap-12 max-w-6xl w-full relative z-10">
+        <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12 max-w-6xl w-full relative z-10">
           {/* Left: Text */}
           <div className="flex-1 text-center lg:text-left">
             <div
@@ -234,7 +234,7 @@ export default function LandingPage() {
       </main>
 
       {/* Personal Products Section */}
-      <section className="w-full px-6 py-20" style={{ background: "color-mix(in srgb, var(--brand-background) 97%, var(--brand-primary) 3%)" }}>
+      <section className="w-full px-4 sm:px-6 py-16 sm:py-20" style={{ background: "color-mix(in srgb, var(--brand-background) 97%, var(--brand-primary) 3%)" }}>
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-14">
             <div
@@ -247,7 +247,7 @@ export default function LandingPage() {
               Personal
             </div>
             <h2
-              className="text-3xl md:text-4xl font-bold mb-4"
+              className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 px-2"
               style={{
                 background: "linear-gradient(135deg, var(--brand-foreground) 0%, var(--brand-primary-light) 50%, var(--brand-accent) 100%)",
                 WebkitBackgroundClip: "text",
@@ -340,7 +340,7 @@ export default function LandingPage() {
       </section>
 
       {/* Futures & Markets Section */}
-      <section className="w-full px-6 py-20" style={{ background: "var(--brand-background)" }}>
+      <section className="w-full px-4 sm:px-6 py-16 sm:py-20" style={{ background: "var(--brand-background)" }}>
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-14">
             <div
@@ -353,7 +353,7 @@ export default function LandingPage() {
               Markets & Futures
             </div>
             <h2
-              className="text-3xl md:text-4xl font-bold mb-4"
+              className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 px-2"
               style={{
                 background: "linear-gradient(135deg, var(--brand-foreground) 0%, var(--brand-primary-light) 50%, var(--brand-accent) 100%)",
                 WebkitBackgroundClip: "text",
