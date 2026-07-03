@@ -1,31 +1,21 @@
-"use client"
-
 import Link from "next/link"
-import { Logo } from "@/components/Logo"
-import { useSession } from "next-auth/react"
-import { useEffect } from "react"
-import { useRouter } from "next/navigation"
 import { brand } from "@/lib/brand"
 
 export default function LandingPage() {
-  const { data: session, status } = useSession()
-  const router = useRouter()
-
-  useEffect(() => {
-    if (status === "authenticated") router.push("/dashboard")
-  }, [status, router])
-
-  if (status === "loading") {
-    return <div className="flex min-h-screen items-center justify-center text-zinc-500">Loading...</div>
-  }
-
-  if (session) return null
   return (
     <div className="min-h-screen flex flex-col" style={{ background: "var(--brand-background)" }}>
       {/* Nav */}
       <nav className="flex items-center justify-between px-4 sm:px-6 py-4">
         <div className="flex items-center gap-2 sm:gap-3 min-w-0">
-          <Logo size={28} showText={false} />
+          <svg width="28" height="28" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="2" width="60" height="60" rx="16" fill="var(--brand-primary)" />
+            <circle cx="32" cy="16" r="3.5" fill="var(--brand-accent)" />
+            <circle cx="32" cy="16" r="5.5" fill="var(--brand-accent)" opacity="0.25" />
+            <line x1="14" y1="28" x2="50" y2="28" stroke="rgba(255,255,255,0.3)" strokeWidth="1" strokeLinecap="round" />
+            <path d="M14 34 Q22 28, 32 34 Q42 40, 50 34" stroke="white" strokeWidth="2.5" strokeLinecap="round" fill="none" />
+            <path d="M14 41 Q22 35, 32 41 Q42 47, 50 41" stroke="white" strokeWidth="2" strokeLinecap="round" fill="none" opacity="0.7" />
+            <path d="M14 48 Q22 42, 32 48 Q42 54, 50 48" stroke="white" strokeWidth="1.5" strokeLinecap="round" fill="none" opacity="0.45" />
+          </svg>
           <span className="font-bold text-sm sm:text-lg truncate" style={{ color: "var(--brand-foreground)" }}>{brand.shortName}</span>
         </div>
         <div className="flex items-center gap-1 sm:gap-3 flex-shrink-0">
