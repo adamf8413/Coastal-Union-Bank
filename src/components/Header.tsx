@@ -90,7 +90,7 @@ export function Header() {
     <>
       {/* Mobile top bar: Logo + Bank Name */}
       <div className="fixed top-0 left-0 right-0 z-50 glass md:hidden flex items-center justify-center px-4 py-2.5 border-b" style={{ borderColor: "var(--brand-border)" }}>
-        <Link href="/dashboard" className="flex items-center gap-3 no-underline">
+        <Link href="/dashboard" className="flex items-center no-underline" style={{ gap: "12px" }}>
           <Logo size={24} showText={false} />
           <span className="font-bold text-base" style={{ color: "var(--brand-primary)" }}>{brand.name}</span>
         </Link>
@@ -98,7 +98,7 @@ export function Header() {
 
       <header className="glass fixed bottom-0 left-0 right-0 z-50 md:top-0 md:bottom-auto">
         <div className="mx-auto max-w-6xl flex items-center justify-between px-4 py-3">
-          <Link href="/dashboard" className="hidden md:flex items-center gap-4 no-underline group">
+          <Link href="/dashboard" className="hidden md:flex items-center no-underline group" style={{ gap: "14px" }}>
             <Logo size={28} showText={false} />
             <span className="font-bold text-lg" style={{ color: "var(--brand-primary)" }}>{brand.name}</span>
           </Link>
