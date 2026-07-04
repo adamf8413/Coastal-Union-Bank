@@ -5,9 +5,9 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen flex flex-col" style={{ background: "var(--brand-background)" }}>
       {/* Nav */}
-      <nav className="flex items-center justify-between px-4 sm:px-6 py-4">
-        <div className="flex items-center gap-2 sm:gap-3 min-w-0">
-          <svg width="28" height="28" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <nav className="flex items-center justify-between px-4 sm:px-6 py-3 flex-nowrap">
+        <div className="flex items-center gap-2 sm:gap-3 min-w-0 shrink">
+          <svg width="24" height="24" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" className="shrink-0">
             <rect x="2" y="2" width="60" height="60" rx="16" fill="var(--brand-primary)" />
             <circle cx="32" cy="16" r="3.5" fill="var(--brand-accent)" />
             <circle cx="32" cy="16" r="5.5" fill="var(--brand-accent)" opacity="0.25" />
@@ -18,13 +18,13 @@ export default function LandingPage() {
           </svg>
           <span className="font-bold text-sm sm:text-lg truncate" style={{ color: "var(--brand-foreground)" }}>{brand.shortName}</span>
         </div>
-        <div className="flex items-center gap-1 sm:gap-3 flex-shrink-0">
-          <Link href="/login" className="text-xs sm:text-sm text-zinc-400 hover:text-zinc-200 transition-colors px-2 sm:px-4 py-1.5 sm:py-2">
+        <div className="flex items-center gap-1.5 sm:gap-3 flex-shrink-0">
+          <Link href="/login" className="text-xs sm:text-sm text-zinc-300 hover:text-white transition-colors px-3 sm:px-4 py-2 rounded-lg font-medium">
             Sign In
           </Link>
           <Link
             href="/register"
-            className="text-xs sm:text-sm font-medium text-white px-3 sm:px-5 py-1.5 sm:py-2 rounded-lg transition-colors"
+            className="text-xs sm:text-sm font-semibold text-white px-4 sm:px-5 py-2 rounded-lg transition-all hover:opacity-90"
             style={{ backgroundColor: "var(--brand-primary)" }}
           >
             Get Started
