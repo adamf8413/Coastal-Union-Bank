@@ -58,7 +58,7 @@ export function SupportChat() {
         </button>
       )}
       {open && (
-        <div className="fixed bottom-20 right-4 md:bottom-6 md:right-6 z-50 w-80 sm:w-96 rounded-xl border shadow-2xl flex flex-col"
+        <div className="fixed bottom-20 right-4 md:bottom-6 md:right-6 z-50 w-80 sm:w-96 max-w-[calc(100vw-2rem)] rounded-xl border shadow-2xl flex flex-col"
           style={{ borderColor: "var(--brand-border)", backgroundColor: "var(--brand-card)", maxHeight: "60vh" }}>
           <div className="flex items-center justify-between p-3 border-b" style={{ borderColor: "var(--brand-border)" }}>
             <span className="text-sm font-semibold">Customer Support</span>

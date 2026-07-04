@@ -110,7 +110,7 @@ export default function LandingPage() {
           </div>
 
           {/* Right: Bank building illustration */}
-          <div className="flex-shrink-0 relative max-w-full">
+          <div className="relative max-w-full min-w-0">
             <div className="relative" style={{ animation: "float 6s ease-in-out infinite" }}>
               <svg width="320" height="380" viewBox="0 0 320 380" fill="none" style={{ maxWidth: "100%", height: "auto" }}>
                 {/* Ground */}

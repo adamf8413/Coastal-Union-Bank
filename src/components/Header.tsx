@@ -95,31 +95,31 @@ export function Header() {
           <span className="font-bold text-lg sm:hidden" style={{ color: "var(--brand-primary)" }}>Coastal</span>
         </Link>
 
-        <nav className="flex w-full md:w-auto justify-around md:justify-end gap-1">
+        <nav className="flex w-full md:w-auto justify-around md:justify-end gap-0 md:gap-1">
           {(session?.user as any)?.role === "ADMIN" && (
             <Link
               href="/admin"
-              className={`flex flex-col md:flex-row items-center gap-1 px-3 py-1.5 rounded-lg text-xs md:text-sm transition-colors ${
+              className={`flex flex-col md:flex-row items-center gap-0.5 md:gap-1 px-1 md:px-3 py-1.5 rounded-lg text-[10px] md:text-xs transition-colors ${
                 pathname.startsWith("/admin")
                   ? "text-purple-400 bg-purple-500/10"
                   : "text-zinc-400 hover:text-zinc-200"
               }`}
             >
-              <span className="text-base">⚙</span>
-              <span>Admin</span>
+              <span className="text-sm md:text-base">⚙</span>
+              <span className="hidden xs:inline">Admin</span>
             </Link>
           )}
           {navItems.map(({ href, label, icon }) => (
             <Link
               key={href}
               href={href}
-              className={`flex flex-col md:flex-row items-center gap-1 px-3 py-1.5 rounded-lg text-xs md:text-sm transition-colors ${
+              className={`flex flex-col md:flex-row items-center gap-0.5 md:gap-1 px-1 md:px-3 py-1.5 rounded-lg text-[10px] md:text-xs transition-colors ${
                 pathname === href
                   ? "text-indigo-400 bg-indigo-500/10"
                   : "text-zinc-400 hover:text-zinc-200"
               }`}
             >
-              <span className="text-base">{icon}</span>
+              <span className="text-sm md:text-base">{icon}</span>
               <span>{label}</span>
             </Link>
           ))}
