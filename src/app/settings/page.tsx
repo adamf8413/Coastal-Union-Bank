@@ -95,7 +95,7 @@ export default function SettingsPage() {
   return (
     <>
       <Header />
-      <main className="mx-auto max-w-2xl px-4 pt-6 pb-24 md:pt-24 md:pb-6">
+      <main className="mx-auto max-w-2xl px-4 pt-14 pb-24 md:pt-24 md:pb-6">
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-2xl font-bold">Settings</h1>
           {!isAdmin && !editing && (

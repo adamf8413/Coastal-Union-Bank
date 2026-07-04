@@ -87,15 +87,23 @@ export function Header() {
   if (pathname === "/login" || pathname === "/register") return null
 
   return (
-    <header className="glass fixed bottom-0 left-0 right-0 z-50 md:top-0 md:bottom-auto">
-      <div className="mx-auto max-w-6xl flex items-center justify-between px-4 py-3">
-        <Link href="/dashboard" className="flex items-center gap-4 no-underline group">
-          <Logo size={28} showText={false} />
-          <span className="font-bold text-lg hidden sm:inline" style={{ color: "var(--brand-primary)" }}>{brand.name}</span>
-          <span className="font-bold text-lg sm:hidden" style={{ color: "var(--brand-primary)" }}>Coastal</span>
+    <>
+      {/* Mobile top bar: Logo + Bank Name */}
+      <div className="fixed top-0 left-0 right-0 z-50 glass md:hidden flex items-center justify-center px-4 py-2.5 border-b" style={{ borderColor: "var(--brand-border)" }}>
+        <Link href="/dashboard" className="flex items-center gap-3 no-underline">
+          <Logo size={24} showText={false} />
+          <span className="font-bold text-base" style={{ color: "var(--brand-primary)" }}>{brand.name}</span>
         </Link>
+      </div>
 
-        <nav className="flex w-full md:w-auto justify-around md:justify-end gap-0 md:gap-1">
+      <header className="glass fixed bottom-0 left-0 right-0 z-50 md:top-0 md:bottom-auto">
+        <div className="mx-auto max-w-6xl flex items-center justify-between px-4 py-3">
+          <Link href="/dashboard" className="hidden md:flex items-center gap-4 no-underline group">
+            <Logo size={28} showText={false} />
+            <span className="font-bold text-lg" style={{ color: "var(--brand-primary)" }}>{brand.name}</span>
+          </Link>
+
+          <nav className="flex w-full md:w-auto justify-around md:justify-end gap-0 md:gap-1">
           {(session?.user as any)?.role === "ADMIN" && (
             <Link
               href="/admin"
@@ -230,5 +238,6 @@ onClick={() => { signOut({ redirect: false }); window.location.href = "/" }}
         )}
       </div>
     </header>
+    </>
   )
 }

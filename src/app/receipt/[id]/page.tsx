@@ -53,7 +53,7 @@ export default function ReceiptPage() {
   return (
     <>
       <Header />
-      <main className="mx-auto max-w-lg px-4 pt-6 pb-24 md:pt-24 md:pb-6">
+      <main className="mx-auto max-w-lg px-4 pt-14 pb-24 md:pt-24 md:pb-6">
         <div className="rounded-xl border p-6 text-center" style={{ borderColor: "var(--brand-border)" }}>
           <div className="text-5xl mb-3">🧾</div>
           <h1 className="text-2xl font-bold mb-1">Transfer Receipt</h1>

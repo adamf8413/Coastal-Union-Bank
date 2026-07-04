@@ -76,7 +76,7 @@ export default function AdminTransactionsPage() {
   return (
     <>
       <Header />
-      <main className="mx-auto max-w-6xl px-4 pt-6 pb-24 md:pt-24 md:pb-6">
+      <main className="mx-auto max-w-6xl px-4 pt-14 pb-24 md:pt-24 md:pb-6">
         <h1 className="text-2xl font-bold mb-6">Manage Transactions</h1>
 
         <div className="overflow-x-auto rounded-xl border" style={{ borderColor: "var(--brand-border)" }}>

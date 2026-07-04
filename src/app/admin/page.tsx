@@ -149,7 +149,7 @@ export default function AdminDashboardPage() {
   return (
     <>
       <Header />
-      <main className="mx-auto max-w-4xl px-4 pt-6 pb-24 md:pt-24 md:pb-6">
+      <main className="mx-auto max-w-4xl px-4 pt-14 pb-24 md:pt-24 md:pb-6">
         <h1 className="text-2xl font-bold mb-6">Admin Dashboard</h1>
 
         <div className="grid gap-4 md:grid-cols-3 mb-8">

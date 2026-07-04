@@ -61,7 +61,7 @@ export default function DashboardPage() {
       <Header />
       <main className="min-h-screen">
         {/* ── Hero Section ── */}
-        <section className="relative overflow-hidden pt-6 md:pt-20 pb-16 md:pb-24">
+        <section className="relative overflow-hidden pt-14 md:pt-20 pb-16 md:pb-24">
           <AnimatedBackground />
 
           <div className="relative mx-auto max-w-6xl px-4" style={{ zIndex: 1 }}>
