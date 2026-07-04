@@ -5,9 +5,9 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen flex flex-col" style={{ background: "var(--brand-background)" }}>
       {/* Nav */}
-      <nav className="flex items-center justify-between px-4 sm:px-6 py-3 flex-nowrap">
-        <div className="flex items-center gap-2 sm:gap-3 min-w-0 shrink">
-          <svg width="24" height="24" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" className="shrink-0">
+      <nav className="flex items-center justify-between px-3 sm:px-6 py-2.5 sm:py-3 flex-nowrap gap-2">
+        <div className="flex items-center gap-1.5 sm:gap-3 shrink min-w-0">
+          <svg width="22" height="22" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" className="shrink-0">
             <rect x="2" y="2" width="60" height="60" rx="16" fill="var(--brand-primary)" />
             <circle cx="32" cy="16" r="3.5" fill="var(--brand-accent)" />
             <circle cx="32" cy="16" r="5.5" fill="var(--brand-accent)" opacity="0.25" />
@@ -16,15 +16,18 @@ export default function LandingPage() {
             <path d="M14 41 Q22 35, 32 41 Q42 47, 50 41" stroke="white" strokeWidth="2" strokeLinecap="round" fill="none" opacity="0.7" />
             <path d="M14 48 Q22 42, 32 48 Q42 54, 50 48" stroke="white" strokeWidth="1.5" strokeLinecap="round" fill="none" opacity="0.45" />
           </svg>
-          <span className="font-bold text-sm sm:text-lg truncate" style={{ color: "var(--brand-foreground)" }}>{brand.shortName}</span>
+          <span className="font-bold text-sm sm:text-lg truncate whitespace-nowrap" style={{ color: "var(--brand-foreground)" }}>
+            <span className="sm:hidden">Coastal</span>
+            <span className="hidden sm:inline">{brand.shortName}</span>
+          </span>
         </div>
-        <div className="flex items-center gap-1.5 sm:gap-3 flex-shrink-0">
-          <Link href="/login" className="text-xs sm:text-sm text-zinc-300 hover:text-white transition-colors px-3 sm:px-4 py-2 rounded-lg font-medium">
+        <div className="flex items-center gap-1 sm:gap-3 flex-shrink-0 whitespace-nowrap">
+          <Link href="/login" className="text-xs sm:text-sm text-zinc-300 hover:text-white transition-colors px-2 sm:px-4 py-1.5 sm:py-2 rounded-lg font-medium">
             Sign In
           </Link>
           <Link
             href="/register"
-            className="text-xs sm:text-sm font-semibold text-white px-4 sm:px-5 py-2 rounded-lg transition-all hover:opacity-90"
+            className="text-xs sm:text-sm font-semibold text-white px-3 sm:px-5 py-1.5 sm:py-2 rounded-lg transition-all hover:opacity-90"
             style={{ backgroundColor: "var(--brand-primary)" }}
           >
             Get Started
