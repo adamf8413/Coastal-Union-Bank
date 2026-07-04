@@ -19,12 +19,12 @@ export default function LandingPage() {
           <span className="font-bold text-sm sm:text-lg truncate" style={{ color: "var(--brand-foreground)" }}>{brand.shortName}</span>
         </div>
         <div className="flex items-center gap-1 sm:gap-3 flex-shrink-0">
-          <Link href="/login" className="text-xs sm:text-sm text-zinc-400 hover:text-zinc-200 transition-colors px-2 sm:px-4 py-2">
+          <Link href="/login" className="text-xs sm:text-sm text-zinc-400 hover:text-zinc-200 transition-colors px-2 sm:px-4 py-1.5 sm:py-2">
             Sign In
           </Link>
           <Link
             href="/register"
-            className="text-xs sm:text-sm font-medium text-white px-3 sm:px-4 py-2 rounded-lg transition-colors"
+            className="text-xs sm:text-sm font-medium text-white px-3 sm:px-5 py-1.5 sm:py-2 rounded-lg transition-colors"
             style={{ backgroundColor: "var(--brand-primary)" }}
           >
             Get Started
@@ -85,7 +85,7 @@ export default function LandingPage() {
             <p className="text-lg text-zinc-400 max-w-md mx-auto lg:mx-0 mb-8">
               Manage USD, EUR, GBP, and crypto all in one place. Send money, track your portfolio, and grow your wealth securely.
             </p>
-            <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
+            <div className="hidden lg:flex flex-wrap gap-3 justify-center lg:justify-start">
               <Link
                 href="/register"
                 className="inline-flex items-center gap-2 rounded-xl px-6 py-3 font-medium text-white transition-all hover:scale-105"
