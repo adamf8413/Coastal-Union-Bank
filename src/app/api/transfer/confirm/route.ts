@@ -3,12 +3,13 @@ import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 
 export async function POST(req: Request) {
-  const session = await auth()
-  if (!session?.user?.id) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-  }
+  try {
+    const session = await auth()
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+    }
 
-  const { transferId, code } = await req.json()
+    const { transferId, code } = await req.json()
   if (!transferId || !code) {
     return NextResponse.json({ error: "Transfer ID and code required" }, { status: 400 })
   }
@@ -80,4 +81,8 @@ export async function POST(req: Request) {
   })
 
   return NextResponse.json({ message: "Transfer completed", transferId: tx.id })
+  } catch (e) {
+    console.error("Transfer confirm error:", e)
+    return NextResponse.json({ error: "Something went wrong" }, { status: 500 })
+  }
 }

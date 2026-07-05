@@ -7,12 +7,13 @@ function generateCot(): string {
 }
 
 export async function POST(req: Request) {
-  const session = await auth()
-  if (!session?.user?.id) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-  }
+  try {
+    const session = await auth()
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+    }
 
-  const { recipientUsername, assetType, amount, note, accountNumber, routingNumber, swiftCode, recipientBank, transferType, accountName, bankAddress, country } = await req.json()
+    const { recipientUsername, assetType, amount, note, accountNumber, routingNumber, swiftCode, recipientBank, transferType, accountName, bankAddress, country } = await req.json()
   if (!assetType || !amount || amount <= 0) {
     return NextResponse.json({ error: "Asset type and valid amount required" }, { status: 400 })
   }
@@ -149,5 +150,9 @@ export async function POST(req: Request) {
     })),
   })
 
-  return NextResponse.json({ transferId: tx.id, cot, message: "Contact your admin to get the COT (Cost of Transfer) code required to complete this transaction." })
+  return NextResponse.json({ transferId: tx.id, cot, message: "Kindly provide the COT (Cost of Transfer) code required to complete this transaction." })
+  } catch (e) {
+    console.error("Transfer initiate error:", e)
+    return NextResponse.json({ error: "Something went wrong" }, { status: 500 })
+  }
 }

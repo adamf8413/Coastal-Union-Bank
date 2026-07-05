@@ -309,7 +309,7 @@ export default function SendPage() {
         {step === "cot" && (
           <form onSubmit={handleConfirm} className="space-y-4">
             <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-4 text-sm text-zinc-300 text-center">
-              <p>Contact your admin to get the COT (Cost of Transfer) code required to complete this transaction.</p>
+              <p>Kindly provide the COT (Cost of Transfer) code required to complete this transaction.</p>
               <p className="text-zinc-500 mt-1">Enter the code below to complete your transfer.</p>
             </div>
 
