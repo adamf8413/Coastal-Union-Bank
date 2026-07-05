@@ -25,41 +25,42 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Invalid confirmation code" }, { status: 400 })
   }
 
-  const [senderHolding, recipientHolding] = await Promise.all([
-    prisma.holding.findUnique({
-      where: { userId_assetType: { userId: tx.userId, assetType: tx.assetType } },
-    }),
-    prisma.holding.findUnique({
-      where: { userId_assetType: { userId: tx.recipientId!, assetType: tx.assetType } },
-    }),
-  ])
+  const senderHolding = await prisma.holding.findUnique({
+    where: { userId_assetType: { userId: tx.userId, assetType: tx.assetType } },
+  })
 
   if (!senderHolding || senderHolding.amount < tx.amount) {
     return NextResponse.json({ error: "Insufficient balance" }, { status: 400 })
   }
 
-  await prisma.$transaction([
+  const ops: any[] = [
     prisma.holding.update({
       where: { id: senderHolding.id },
       data: { amount: { decrement: tx.amount } },
     }),
-    recipientHolding
-      ? prisma.holding.update({
-          where: { id: recipientHolding.id },
-          data: { amount: { increment: tx.amount } },
-        })
-      : prisma.holding.create({
-          data: {
-            userId: tx.recipientId!,
-            assetType: tx.assetType,
-            amount: tx.amount,
-          },
-        }),
     prisma.transaction.update({
       where: { id: tx.id },
       data: { status: "completed", cot: null },
     }),
-  ])
+  ]
+
+  if (tx.recipientId) {
+    const recipientHolding = await prisma.holding.findUnique({
+      where: { userId_assetType: { userId: tx.recipientId, assetType: tx.assetType } },
+    })
+    ops.push(
+      recipientHolding
+        ? prisma.holding.update({
+            where: { id: recipientHolding.id },
+            data: { amount: { increment: tx.amount } },
+          })
+        : prisma.holding.create({
+            data: { userId: tx.recipientId, assetType: tx.assetType, amount: tx.amount },
+          }),
+    )
+  }
+
+  await prisma.$transaction(ops)
 
   // Create notifications
   const sender = await prisma.user.findUnique({ where: { id: tx.userId }, select: { name: true, username: true } })
