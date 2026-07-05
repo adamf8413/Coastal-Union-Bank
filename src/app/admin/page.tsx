@@ -238,9 +238,9 @@ export default function AdminDashboardPage() {
                   <div className="flex items-start justify-between gap-4">
                     <div className="space-y-1">
                       <p>
-                        <strong className="text-zinc-200">{p.user.username}</strong>
+                        <strong className="text-zinc-200">{p.user?.username || "Unknown"}</strong>
                         <span className="text-zinc-500"> → </span>
-                        <strong className="text-zinc-200">{p.recipient.username}</strong>
+                        <strong className="text-zinc-200">{p.recipient?.username || "External Bank"}</strong>
                       </p>
                       <p className="text-zinc-400">
                         {p.amount} {p.assetType}
