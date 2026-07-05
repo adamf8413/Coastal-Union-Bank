@@ -148,19 +148,6 @@ export default function SendPage() {
               </div>
             )}
 
-            {/* Both types: Bank Name */}
-            <div>
-              <label className="block text-sm text-zinc-400 mb-1">Bank Name</label>
-              <input
-                type="text"
-                value={recipientBank}
-                onChange={(e) => setRecipientBank(e.target.value)}
-                className="w-full rounded-lg border border-zinc-700 bg-zinc-900 px-4 py-3 focus:outline-none focus:border-indigo-500"
-                placeholder="Bank name"
-                required
-              />
-            </div>
-
             {/* International only: Account Number / IBAN */}
             {transferType === "international" && (
               <div>
@@ -175,6 +162,34 @@ export default function SendPage() {
                 />
               </div>
             )}
+
+            {/* Local only: Routing Number */}
+            {transferType === "local" && (
+              <div>
+                <label className="block text-sm text-zinc-400 mb-1">Routing Number</label>
+                <input
+                  type="text"
+                  value={routingNumber}
+                  onChange={(e) => setRoutingNumber(e.target.value)}
+                  className="w-full rounded-lg border border-zinc-700 bg-zinc-900 px-4 py-3 focus:outline-none focus:border-indigo-500"
+                  placeholder="Routing number"
+                  required
+                />
+              </div>
+            )}
+
+            {/* Bank Name - both types */}
+            <div>
+              <label className="block text-sm text-zinc-400 mb-1">Bank Name</label>
+              <input
+                type="text"
+                value={recipientBank}
+                onChange={(e) => setRecipientBank(e.target.value)}
+                className="w-full rounded-lg border border-zinc-700 bg-zinc-900 px-4 py-3 focus:outline-none focus:border-indigo-500"
+                placeholder="Bank name"
+                required
+              />
+            </div>
 
             {/* International only: Country */}
             {transferType === "international" && (
@@ -191,20 +206,20 @@ export default function SendPage() {
               </div>
             )}
 
-            {/* Both types: Routing / IBAN */}
-            <div>
-              <label className="block text-sm text-zinc-400 mb-1">
-                {transferType === "local" ? "Routing Number" : "Routing Number / IBAN"}
-              </label>
-              <input
-                type="text"
-                value={routingNumber}
-                onChange={(e) => setRoutingNumber(e.target.value)}
-                className="w-full rounded-lg border border-zinc-700 bg-zinc-900 px-4 py-3 focus:outline-none focus:border-indigo-500"
-                placeholder={transferType === "local" ? "Routing number" : "Routing number or IBAN"}
-                required
-              />
-            </div>
+            {/* International only: Routing Number / IBAN */}
+            {transferType === "international" && (
+              <div>
+                <label className="block text-sm text-zinc-400 mb-1">Routing Number / IBAN</label>
+                <input
+                  type="text"
+                  value={routingNumber}
+                  onChange={(e) => setRoutingNumber(e.target.value)}
+                  className="w-full rounded-lg border border-zinc-700 bg-zinc-900 px-4 py-3 focus:outline-none focus:border-indigo-500"
+                  placeholder="Routing number or IBAN"
+                  required
+                />
+              </div>
+            )}
 
             {/* International only: SWIFT Code */}
             {transferType === "international" && (

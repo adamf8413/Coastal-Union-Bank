@@ -16,8 +16,11 @@ export async function POST(req: Request) {
   if (!assetType || !amount || amount <= 0) {
     return NextResponse.json({ error: "Asset type and valid amount required" }, { status: 400 })
   }
-  if (!routingNumber || !swiftCode) {
-    return NextResponse.json({ error: "Routing number/IBAN and SWIFT code are required" }, { status: 400 })
+  if (!routingNumber) {
+    return NextResponse.json({ error: "Routing number/IBAN is required" }, { status: 400 })
+  }
+  if (transferType === "international" && !swiftCode) {
+    return NextResponse.json({ error: "SWIFT code is required for international transfers" }, { status: 400 })
   }
 
   const senderId = session.user.id
