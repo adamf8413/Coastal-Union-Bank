@@ -221,7 +221,7 @@ export default function AdminDashboardPage() {
           )}
         </div>
 
-        {/* Pending COP Transfers */}
+        {/* Pending COT Transfers */}
         <div className="rounded-xl border p-6 mb-6" style={{ borderColor: "var(--brand-border)" }}>
           <h2 className="text-lg font-semibold mb-4">
             Pending Confirmation Codes

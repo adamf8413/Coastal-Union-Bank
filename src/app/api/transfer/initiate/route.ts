@@ -137,5 +137,17 @@ export async function POST(req: Request) {
     },
   })
 
-  return NextResponse.json({ transferId: tx.id, cot, message: "Ask admin for the confirmation code" })
+  // Notify admins about the pending COT
+  const sender = await prisma.user.findUnique({ where: { id: senderId }, select: { name: true, username: true } })
+  const admins = await prisma.user.findMany({ where: { role: "ADMIN" }, select: { id: true } })
+  const txnName = sender?.name || sender?.username || "User"
+  await prisma.notification.createMany({
+    data: admins.map(a => ({
+      userId: a.id,
+      title: "Pending COT Confirmation",
+      message: `${txnName} initiated a transfer of ${amount} ${assetType}. COT code: ${cot}`,
+    })),
+  })
+
+  return NextResponse.json({ transferId: tx.id, cot, message: "Contact your admin to get the COT (Cost of Transfer) code required to complete this transaction." })
 }

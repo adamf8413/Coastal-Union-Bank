@@ -25,7 +25,10 @@ export function Logo({ size = 32, showText = true, textClass = "text-indigo-400"
   }, [])
 
   const svgToRender = svg ?? defaultBrand.logoSvg
-  const uniqueSvg = svgToRender.replace(/id="/g, `id="${uid}-`).replace(/url\(#/g, `url(#${uid}-`)
+  const uniqueSvg = svgToRender
+    .replace(/id="/g, `id="${uid}-`)
+    .replace(/url\(#/g, `url(#${uid}-`)
+    .replace(/\s(width|height)="[^"]*"/g, "")
 
   return (
     <div className="flex items-center gap-2">

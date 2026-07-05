@@ -25,7 +25,7 @@ export default function SendPage() {
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
 
-  const [step, setStep] = useState<"form" | "otp" | "done">("form")
+  const [step, setStep] = useState<"form" | "cot" | "done">("form")
   const [transferId, setTransferId] = useState("")
   const [code, setCode] = useState("")
 
@@ -55,7 +55,7 @@ export default function SendPage() {
 
     if (res.ok) {
       setTransferId(data.transferId)
-      setStep(data.completed ? "done" : "otp")
+      setStep(data.completed ? "done" : "cot")
     } else {
       setError(data.error || "Something went wrong")
     }
@@ -306,10 +306,10 @@ export default function SendPage() {
           </form>
         )}
 
-        {step === "otp" && (
+        {step === "cot" && (
           <form onSubmit={handleConfirm} className="space-y-4">
             <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-4 text-sm text-zinc-300 text-center">
-              <p>Contact your admin to get the confirmation code (COT).</p>
+              <p>Contact your admin to get the COT (Cost of Transfer) code required to complete this transaction.</p>
               <p className="text-zinc-500 mt-1">Enter the code below to complete your transfer.</p>
             </div>
 

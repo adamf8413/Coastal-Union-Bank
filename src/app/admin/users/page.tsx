@@ -30,6 +30,10 @@ export default function AdminUsersPage() {
   const [historyEntries, setHistoryEntries] = useState<HistoryEntry[]>([])
   const [error, setError] = useState("")
   const [deletingId, setDeletingId] = useState<string | null>(null)
+  const [resetPw, setResetPw] = useState<{ id: string; username: string } | null>(null)
+  const [newPassword, setNewPassword] = useState("")
+  const [resetLoading, setResetLoading] = useState<boolean | "saving">(false)
+  const [createdInfo, setCreatedInfo] = useState<{ username: string; password: string } | null>(null)
 
   const addEntry = () => {
     setHistoryEntries([...historyEntries, { type: "deposit", assetType: "USD", amount: "", status: "completed", date: new Date().toISOString().slice(0, 16), note: "" }])
@@ -72,6 +76,7 @@ export default function AdminUsersPage() {
     const data = await res.json()
     if (res.ok) {
       setUsers((prev) => [data.user, ...prev])
+      setCreatedInfo({ username: form.username, password: form.password })
       setShowOnboard(false)
       setForm({ username: "", name: "", email: "", password: "", role: "USER", creditAsset: "USD", creditAmount: "" })
       setHistoryEntries([])
@@ -180,6 +185,15 @@ export default function AdminUsersPage() {
           </form>
         )}
 
+        {createdInfo && (
+          <div className="rounded-xl border p-4 mb-4 bg-emerald-900/20" style={{ borderColor: "var(--brand-border)" }}>
+            <p className="text-sm text-emerald-400 font-semibold mb-1">✓ User created successfully</p>
+            <p className="text-xs text-zinc-300">Username: <strong>{createdInfo.username}</strong></p>
+            <p className="text-xs text-zinc-300">Password: <strong>{createdInfo.password}</strong></p>
+            <button onClick={() => setCreatedInfo(null)} className="text-xs text-zinc-500 hover:text-zinc-300 mt-1">Dismiss</button>
+          </div>
+        )}
+
         <div className="overflow-x-auto rounded-xl border" style={{ borderColor: "var(--brand-border)" }}>
           <table className="w-full text-sm">
             <thead>
@@ -214,7 +228,13 @@ export default function AdminUsersPage() {
                   </td>
                   <td className="p-3 text-zinc-400">{u._count.transactions}</td>
                   <td className="p-3 text-zinc-500">{new Date(u.createdAt).toLocaleDateString()}</td>
-                  <td className="p-3">
+                  <td className="p-3 flex gap-2">
+                    <button
+                      onClick={() => { setResetPw({ id: u.id, username: u.username }); setNewPassword("") }}
+                      className="text-xs text-indigo-400 hover:text-indigo-300"
+                    >
+                      Password
+                    </button>
                     {u.role !== "ADMIN" && (
                       <button
                         onClick={() => setDeletingId(u.id)}
@@ -229,6 +249,56 @@ export default function AdminUsersPage() {
             </tbody>
           </table>
         </div>
+        {resetPw && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
+            <div className="rounded-xl border p-6 bg-zinc-900 max-w-sm w-full mx-4" style={{ borderColor: "var(--brand-border)" }}>
+              <h3 className="text-lg font-semibold mb-2">Change Password — {resetPw.username}</h3>
+              <p className="text-sm text-zinc-400 mb-4">Enter a new password for this user. The password will be shown below after saving.</p>
+              <input
+                type="text"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                placeholder="New password"
+                className="w-full rounded-lg border px-3 py-2 text-sm bg-zinc-900 mb-3"
+                style={{ borderColor: "var(--brand-border)" }}
+                minLength={6}
+              />
+              {resetLoading === true && <p className="text-xs text-emerald-400 mb-2">✓ Password set to: <strong>{newPassword}</strong></p>}
+              <div className="flex gap-2 justify-end">
+                <button
+                  onClick={() => { setResetPw(null); setNewPassword("") }}
+                  className="rounded-lg px-4 py-2 text-sm font-medium text-zinc-400 border border-zinc-700"
+                >
+                  Cancel
+                </button>
+                <button
+                  disabled={newPassword.length < 6 || resetLoading === "saving"}
+                  onClick={async () => {
+                    setResetLoading("saving")
+                    const res = await fetch(`/api/admin/users/${resetPw.id}`, {
+                      method: "PATCH",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({ password: newPassword }),
+                    })
+                    if (res.ok) {
+                      setResetLoading(true)
+                    } else {
+                      const data = await res.json()
+                      alert(data.error || "Failed to reset password")
+                      setResetPw(null)
+                      setResetLoading(false)
+                    }
+                  }}
+                  className="rounded-lg px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
+                  style={{ backgroundColor: "var(--brand-primary)" }}
+                >
+                  {resetLoading === "saving" ? <span className="animate-spin-logo text-lg">⟳</span> : "Save Password"}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
         {deletingId && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
             <div className="rounded-xl border p-6 bg-zinc-900 max-w-sm w-full mx-4" style={{ borderColor: "var(--brand-border)" }}>

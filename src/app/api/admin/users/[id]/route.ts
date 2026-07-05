@@ -1,6 +1,25 @@
 import { NextResponse } from "next/server"
+import bcrypt from "bcryptjs"
 import { prisma } from "@/lib/prisma"
 import { requireAdmin } from "@/lib/admin-guard"
+
+export async function PATCH(req: Request, { params }: { params: Promise<{ id: string }> }) {
+  try {
+    await requireAdmin()
+    const { id } = await params
+    const { password } = await req.json()
+    if (!password || password.length < 6) {
+      return NextResponse.json({ error: "Password must be at least 6 characters" }, { status: 400 })
+    }
+
+    const hashed = await bcrypt.hash(password, 12)
+    await prisma.user.update({ where: { id }, data: { password: hashed } })
+
+    return NextResponse.json({ success: true, password })
+  } catch {
+    return NextResponse.json({ error: "Something went wrong" }, { status: 500 })
+  }
+}
 
 export async function DELETE(_req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {

@@ -1,4 +1,4 @@
-"use client"
+ "use client"
 
 import { useState } from "react"
 import { signIn } from "next-auth/react"
@@ -19,36 +19,20 @@ export default function LoginPage() {
     setLoading(true)
     setError("")
 
-    const res = await fetch("/api/login/otp-init", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, password }),
-    })
-    const data = await res.json()
-
-    if (res.ok) {
-      if (data.isAdmin) {
-        const adminRes = await fetch("/api/login/admin", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ username, password }),
-        })
-        if (adminRes.ok) {
-          window.location.href = "/dashboard"
-        } else {
-          setError("Admin login failed")
-        }
-        setLoading(false)
+    const signInResult = await signIn("credentials", { username, password, redirect: false })
+    if (signInResult?.error) {
+      const adminRes = await fetch("/api/login/admin", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      })
+      if (adminRes.ok) {
+        window.location.href = "/dashboard"
         return
       }
-      const signInResult = await signIn("credentials", { username, password, redirect: false })
-      if (signInResult?.error) {
-        setError("Failed to sign in")
-      } else {
-        router.push("/dashboard")
-      }
+      setError("Invalid username or password")
     } else {
-      setError(data.error || "Invalid username or password")
+      router.push("/dashboard")
     }
     setLoading(false)
   }
