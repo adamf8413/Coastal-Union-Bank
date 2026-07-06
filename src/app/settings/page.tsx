@@ -1,6 +1,6 @@
 "use client"
 
-import { useSession } from "next-auth/react"
+import { useSession, signOut } from "next-auth/react"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { Header } from "@/components/Header"
@@ -277,6 +277,19 @@ export default function SettingsPage() {
                 </div>
               </form>
             )}
+          </div>
+
+          {/* Sign Out */}
+          <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-6">
+            <h2 className="text-lg font-semibold mb-4">Sign Out</h2>
+            <p className="text-sm text-zinc-400 mb-4">Sign out of your account on this device.</p>
+            <button
+              onClick={async () => { await signOut({ redirect: false }); window.location.href = "/" }}
+              className="rounded-lg px-4 py-2 text-sm font-medium text-white"
+              style={{ backgroundColor: "#ef4444" }}
+            >
+              Sign Out
+            </button>
           </div>
 
         </div>
