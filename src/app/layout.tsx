@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next"
 import { Providers } from "@/components/Providers"
 import { BrandProvider } from "@/components/BrandProvider"
 import { ServiceWorkerRegister } from "@/components/ServiceWorkerRegister"
+import { AutoLogout } from "@/components/AutoLogout"
 import { brand } from "@/lib/brand"
 import { getBrandConfig, brandConfigToCssVars } from "@/lib/brand-db"
 import "./globals.css"
@@ -38,6 +39,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <Providers>
           <BrandProvider initial={brandConfig}>
             <ServiceWorkerRegister />
+            <AutoLogout />
             {children}
           </BrandProvider>
         </Providers>
