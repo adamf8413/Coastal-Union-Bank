@@ -2,7 +2,7 @@ import { NextResponse } from "next/server"
 import bcrypt from "bcryptjs"
 import { prisma } from "@/lib/prisma"
 import { requireAdmin } from "@/lib/admin-guard"
-import { createUniqueAccountNumber, createUniqueSwiftCode } from "@/lib/account"
+import { createUniqueAccountNumber, createUniqueSwiftCode, createUniqueRoutingNumber } from "@/lib/account"
 
 export async function GET() {
   try {
@@ -46,6 +46,7 @@ export async function POST(req: Request) {
 
     const hashedPassword = await bcrypt.hash(password, 12)
     const accountNumber = await createUniqueAccountNumber()
+    const routingNumber = await createUniqueRoutingNumber()
     const swiftCode = await createUniqueSwiftCode()
 
     const holdingsData = [
@@ -75,6 +76,7 @@ export async function POST(req: Request) {
         role: role || "USER",
         isVerified: true,
         accountNumber,
+        routingNumber,
         swiftCode,
         holdings: { createMany: { data: holdingsData } },
       },

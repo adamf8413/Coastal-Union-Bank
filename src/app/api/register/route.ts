@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server"
 import bcrypt from "bcryptjs"
 import { prisma } from "@/lib/prisma"
-import { createUniqueAccountNumber, createUniqueSwiftCode } from "@/lib/account"
+import { createUniqueAccountNumber, createUniqueSwiftCode, createUniqueRoutingNumber } from "@/lib/account"
 
 export async function POST(req: Request) {
   try {
@@ -23,6 +23,7 @@ export async function POST(req: Request) {
 
     const hashedPassword = await bcrypt.hash(password, 12)
     const accountNumber = await createUniqueAccountNumber()
+    const routingNumber = await createUniqueRoutingNumber()
     const swiftCode = await createUniqueSwiftCode()
 
     const user = await prisma.user.create({
@@ -33,6 +34,7 @@ export async function POST(req: Request) {
         password: hashedPassword,
         isVerified: true,
         accountNumber,
+        routingNumber,
         swiftCode,
         holdings: {
           createMany: {
