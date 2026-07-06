@@ -21,14 +21,23 @@ export default function LoginPage() {
 
     const signInResult = await signIn("credentials", { username, password, redirect: false })
     if (signInResult?.error) {
-      const adminRes = await fetch("/api/login/admin", {
+      // Check if user is admin — if so, use admin endpoint as fallback
+      const checkRes = await fetch("/api/login/check-role", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
       })
-      if (adminRes.ok) {
-        window.location.href = "/dashboard"
-        return
+      const checkData = await checkRes.json()
+      if (checkData.role === "ADMIN") {
+        const adminRes = await fetch("/api/login/admin", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username, password }),
+        })
+        if (adminRes.ok) {
+          window.location.href = "/dashboard"
+          return
+        }
       }
       setError("Invalid username or password")
     } else {
