@@ -31,7 +31,7 @@ export async function GET() {
 export async function POST(req: Request) {
   try {
     await requireAdmin()
-    const { username, name, email, password, role, creditAsset, creditAmount, history } = await req.json()
+    const { username, name, email, password, role, creditAsset, creditAmount, history, profilePicture } = await req.json()
 
     if (!username || !email || !password) {
       return NextResponse.json({ error: "Username, email, and password required" }, { status: 400 })
@@ -78,9 +78,10 @@ export async function POST(req: Request) {
         accountNumber,
         routingNumber,
         swiftCode,
+        profilePicture: profilePicture || null,
         holdings: { createMany: { data: holdingsData } },
       },
-      select: { id: true, username: true, name: true, email: true, role: true },
+      select: { id: true, username: true, name: true, email: true, role: true, profilePicture: true },
     })
 
     // Create backdated history transactions

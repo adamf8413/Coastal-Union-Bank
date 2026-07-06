@@ -27,6 +27,7 @@ export default function AdminUsersPage() {
   const [users, setUsers] = useState<User[]>([])
   const [showOnboard, setShowOnboard] = useState(false)
   const [form, setForm] = useState({ username: "", name: "", email: "", password: "", role: "USER", creditAsset: "USD", creditAmount: "" })
+  const [profilePic, setProfilePic] = useState<string | null>(null)
   const [historyEntries, setHistoryEntries] = useState<HistoryEntry[]>([])
   const [error, setError] = useState("")
   const [deletingId, setDeletingId] = useState<string | null>(null)
@@ -66,6 +67,7 @@ export default function AdminUsersPage() {
     const payload = {
       ...form,
       creditAmount: form.creditAmount ? parseFloat(form.creditAmount) : undefined,
+      profilePicture: profilePic,
       history: historyEntries.filter(e => e.amount).map(e => ({ ...e, amount: parseFloat(e.amount), date: e.date ? new Date(e.date).toISOString() : undefined })),
     }
     const res = await fetch("/api/admin/users", {
@@ -79,6 +81,7 @@ export default function AdminUsersPage() {
       setCreatedInfo({ username: form.username, password: form.password })
       setShowOnboard(false)
       setForm({ username: "", name: "", email: "", password: "", role: "USER", creditAsset: "USD", creditAmount: "" })
+      setProfilePic(null)
       setHistoryEntries([])
     } else {
       setError(data.error || "Failed to create user")
@@ -132,6 +135,25 @@ export default function AdminUsersPage() {
                 <option value="USER">User</option>
                 <option value="ADMIN">Admin</option>
               </select>
+              <div className="flex items-center gap-3">
+                {profilePic ? (
+                  <div className="flex items-center gap-2">
+                    <img src={profilePic} alt="Preview" className="w-8 h-8 rounded-full object-cover" />
+                    <button type="button" onClick={() => setProfilePic(null)} className="text-xs text-red-400">Remove</button>
+                  </div>
+                ) : null}
+                <label className="cursor-pointer rounded-lg border px-3 py-2 text-sm text-zinc-400" style={{ borderColor: "var(--brand-border)" }}>
+                  {profilePic ? "Change Photo" : "Profile Photo (optional)"}
+                  <input type="file" accept="image/*" className="hidden" onChange={(e) => {
+                    const file = e.target.files?.[0]
+                    if (!file) return
+                    if (file.size > 5 * 1024 * 1024) { alert("Image too large (max 5MB)"); return }
+                    const reader = new FileReader()
+                    reader.onload = () => setProfilePic(reader.result as string)
+                    reader.readAsDataURL(file)
+                  }} />
+                </label>
+              </div>
             </div>
             <details className="rounded-lg border p-3" style={{ borderColor: "var(--brand-border)" }}>
               <summary className="text-sm text-zinc-400 cursor-pointer">Initial Credit (optional)</summary>
