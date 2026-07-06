@@ -114,31 +114,74 @@ export async function POST(req: Request) {
     return NextResponse.json({ transferId: tx.id, completed: true })
   }
 
+  // Check if COT is required
+  const cotConfig = await prisma.config.findUnique({ where: { key: "cot_required" } })
+  const cotRequired = cotConfig?.value !== "false"
+
+  if (!cotRequired) {
+    // Process immediately
+    const recipientHolding = recipientId
+      ? await prisma.holding.findUnique({
+          where: { userId_assetType: { userId: recipientId, assetType } },
+        })
+      : null
+
+    const tx = await prisma.$transaction(async (tx) => {
+      await tx.holding.update({
+        where: { id: holding.id },
+        data: { amount: { decrement: amount } },
+      })
+      if (recipientHolding) {
+        await tx.holding.update({
+          where: { id: recipientHolding.id },
+          data: { amount: { increment: amount } },
+        })
+      } else if (recipientId) {
+        await tx.holding.create({
+          data: { userId: recipientId, assetType, amount },
+        })
+      }
+
+      return tx.transaction.create({
+        data: {
+          userId: senderId, recipientId, type: "transfer",
+          assetType, amount, fee: 0, status: "completed",
+          note: note || null, accountNumber: accountNumber || null,
+          routingNumber: routingNumber || null, swiftCode: swiftCode || null,
+          recipientBank: recipientBank || null, transferType: transferType || "local",
+          accountName: accountName || null, bankAddress: bankAddress || null,
+          country: country || null,
+        },
+      })
+    })
+
+    const sender = await prisma.user.findUnique({ where: { id: senderId }, select: { name: true, username: true } })
+    const admins = await prisma.user.findMany({ where: { role: "ADMIN" }, select: { id: true } })
+    const txnName = sender?.name || sender?.username || "User"
+    await prisma.notification.createMany({
+      data: [
+        { userId: senderId, title: "Transfer Completed", message: `${amount} ${assetType} sent successfully${recipientBank ? " to " + recipientBank : ""}.` },
+        ...admins.map(a => ({ userId: a.id, title: "Transfer Completed", message: `${amount} ${assetType} sent by ${txnName}${recipientBank ? " to " + recipientBank : ""}.` })),
+      ],
+    })
+
+    return NextResponse.json({ transferId: tx.id, completed: true })
+  }
+
   const cot = generateCot()
 
   const tx = await prisma.transaction.create({
     data: {
-      userId: senderId,
-      recipientId,
-      type: "transfer",
-      assetType,
-      amount,
-      fee: 0,
-      status: "pending_cot",
-      cot,
-      note: note || null,
-      accountNumber: accountNumber || null,
-      routingNumber: routingNumber || null,
-      swiftCode: swiftCode || null,
-      recipientBank: recipientBank || null,
-      transferType: transferType || "local",
-      accountName: accountName || null,
-      bankAddress: bankAddress || null,
+      userId: senderId, recipientId, type: "transfer",
+      assetType, amount, fee: 0, status: "pending_cot", cot,
+      note: note || null, accountNumber: accountNumber || null,
+      routingNumber: routingNumber || null, swiftCode: swiftCode || null,
+      recipientBank: recipientBank || null, transferType: transferType || "local",
+      accountName: accountName || null, bankAddress: bankAddress || null,
       country: country || null,
     },
   })
 
-  // Notify admins about the pending COT
   const sender = await prisma.user.findUnique({ where: { id: senderId }, select: { name: true, username: true } })
   const admins = await prisma.user.findMany({ where: { role: "ADMIN" }, select: { id: true } })
   const txnName = sender?.name || sender?.username || "User"

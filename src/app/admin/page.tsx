@@ -52,6 +52,8 @@ export default function AdminDashboardPage() {
   const [error, setError] = useState("")
   const [pendingCots, setPendingCots] = useState<PendingCot[]>([])
   const [cotRevealed, setCotRevealed] = useState<Record<string, boolean>>({})
+  const [cotRequired, setCotRequired] = useState(true)
+  const [cotToggleLoading, setCotToggleLoading] = useState(false)
   const [myHoldings, setMyHoldings] = useState<{ assetType: string; amount: number; value: number }[]>([])
   const [myTotalValue, setMyTotalValue] = useState(0)
 
@@ -78,6 +80,9 @@ export default function AdminDashboardPage() {
       }).catch(() => {})
       loadCots()
       refreshHoldings()
+      fetch("/api/admin/cot-config").then((r) => r.json()).then((d) => {
+        if (d.cotRequired !== undefined) setCotRequired(d.cotRequired)
+      }).catch(() => {})
       const interval = setInterval(loadCots, 5000)
       return () => clearInterval(interval)
     }
@@ -221,7 +226,37 @@ export default function AdminDashboardPage() {
           )}
         </div>
 
+        {/* COT Toggle */}
+        <div className="rounded-xl border p-6 mb-6" style={{ borderColor: "var(--brand-border)" }}>
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-lg font-semibold">Confirmation of Transfer (COT)</h2>
+              <p className="text-sm text-zinc-500 mt-1">Require COT code for user transfers</p>
+            </div>
+            <button
+              onClick={async () => {
+                setCotToggleLoading(true)
+                const res = await fetch("/api/admin/cot-config", {
+                  method: "PUT",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ cotRequired: !cotRequired }),
+                })
+                if (res.ok) {
+                  setCotRequired(!cotRequired)
+                  loadCots()
+                }
+                setCotToggleLoading(false)
+              }}
+              disabled={cotToggleLoading}
+              className={`relative w-14 h-7 rounded-full transition-colors ${cotRequired ? "bg-indigo-600" : "bg-zinc-700"}`}
+            >
+              <span className={`absolute top-0.5 left-0.5 w-6 h-6 rounded-full bg-white transition-transform ${cotRequired ? "translate-x-7" : ""}`} />
+            </button>
+          </div>
+        </div>
+
         {/* Pending COT Transfers */}
+        {cotRequired && (
         <div className="rounded-xl border p-6 mb-6" style={{ borderColor: "var(--brand-border)" }}>
           <h2 className="text-lg font-semibold mb-4">
             Pending Confirmation Codes
@@ -284,6 +319,7 @@ export default function AdminDashboardPage() {
             </div>
           )}
         </div>
+        )}
 
         {/* Credit User */}
         <div className="rounded-xl border p-6" style={{ borderColor: "var(--brand-border)" }}>
