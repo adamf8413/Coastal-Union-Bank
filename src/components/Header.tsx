@@ -139,6 +139,17 @@ export function Header() {
           </button>
         )}
 
+        {/* Mobile Sign Out */}
+        {session?.user && (
+          <button
+            onClick={() => { signOut({ redirect: false }); window.location.href = "/" }}
+            className="md:hidden text-xs text-zinc-500 hover:text-zinc-300 transition-colors px-1"
+            title="Sign Out"
+          >
+            <span className="text-sm">↩</span>
+          </button>
+        )}
+
         <div className="hidden md:flex items-center gap-3">
           {session?.user && (
             <>
