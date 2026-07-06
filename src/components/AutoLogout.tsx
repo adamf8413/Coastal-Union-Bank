@@ -14,8 +14,8 @@ export function AutoLogout() {
 
     const resetTimer = () => {
       if (timer.current) clearTimeout(timer.current)
-      timer.current = setTimeout(() => {
-        signOut({ redirect: false })
+      timer.current = setTimeout(async () => {
+        await signOut({ redirect: false })
         window.location.href = "/"
       }, INACTIVITY_TIMEOUT)
     }
