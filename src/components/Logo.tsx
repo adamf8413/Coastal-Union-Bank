@@ -29,12 +29,13 @@ export function Logo({ size = 32, showText = true, textClass = "text-indigo-400"
     .replace(/id="/g, `id="${uid}-`)
     .replace(/url\(#/g, `url(#${uid}-`)
     .replace(/\s(width|height)="[^"]*"/g, "")
+    .replace("<svg", `<svg style="max-width:100%;max-height:100%;display:block"`)
 
   return (
     <div className="flex items-center gap-2">
       <div
         className="flex-shrink-0"
-        style={{ width: size, height: size }}
+        style={{ width: size, height: size, overflow: "hidden" }}
         dangerouslySetInnerHTML={{ __html: uniqueSvg }}
       />
       {showText && <span className={`font-bold text-lg ${textClass}`}>{name}</span>}
