@@ -9,7 +9,7 @@ export async function PUT(req: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
-    const { name, email } = await req.json()
+    const { name, email, profilePicture } = await req.json()
     const userId = session.user.id as string
     const userRole = (session.user as any).role
 
@@ -26,6 +26,15 @@ export async function PUT(req: Request) {
       }
       data.email = email
     }
+    if (profilePicture !== undefined) {
+      if (!profilePicture.startsWith("data:image/")) {
+        return NextResponse.json({ error: "Invalid image format" }, { status: 400 })
+      }
+      if (profilePicture.length > 5 * 1024 * 1024) {
+        return NextResponse.json({ error: "Image too large (max 5MB)" }, { status: 400 })
+      }
+      data.profilePicture = profilePicture
+    }
 
     if (Object.keys(data).length === 0) {
       return NextResponse.json({ error: "Nothing to update" }, { status: 400 })
@@ -34,7 +43,7 @@ export async function PUT(req: Request) {
     const user = await prisma.user.update({
       where: { id: userId },
       data,
-      select: { id: true, username: true, name: true, email: true, role: true },
+      select: { id: true, username: true, name: true, email: true, role: true, profilePicture: true },
     })
 
     return NextResponse.json({ user })

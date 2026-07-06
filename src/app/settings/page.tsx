@@ -17,6 +17,9 @@ export default function SettingsPage() {
   const [msg, setMsg] = useState("")
   const [err, setErr] = useState("")
   const [saving, setSaving] = useState(false)
+  const [picMsg, setPicMsg] = useState("")
+  const [picErr, setPicErr] = useState("")
+  const [picSaving, setPicSaving] = useState(false)
 
   // Password
   const [showPw, setShowPw] = useState(false)
@@ -117,16 +120,88 @@ export default function SettingsPage() {
           {/* Profile Picture */}
           <div className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-6">
             <h2 className="text-lg font-semibold mb-4">Profile Picture</h2>
+            {picErr && <p className="text-sm text-red-400 mb-3">{picErr}</p>}
+            {picMsg && <p className="text-sm text-emerald-400 mb-3">{picMsg}</p>}
             <div className="flex items-center gap-4">
-              <div className="w-20 h-20 rounded-full bg-zinc-800 flex items-center justify-center text-3xl text-zinc-500 overflow-hidden">
+              <div className="w-20 h-20 rounded-full bg-zinc-800 flex items-center justify-center text-3xl text-zinc-500 overflow-hidden flex-shrink-0">
                 {user?.profilePicture ? (
                   <img src={user.profilePicture} alt="Profile" className="w-full h-full object-cover" />
                 ) : (
                   <span>{(user?.name || user?.username || "?")[0].toUpperCase()}</span>
                 )}
               </div>
-              <div>
-                <p className="text-sm text-zinc-400">Profile picture upload coming soon</p>
+              <div className="flex flex-col gap-2">
+                <label className="cursor-pointer rounded-lg px-4 py-2 text-sm font-medium text-white text-center" style={{ backgroundColor: "var(--brand-primary)" }}>
+                  {picSaving ? "⟳ Uploading..." : "Choose Image"}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    disabled={picSaving}
+                    onChange={async (e) => {
+                      const file = e.target.files?.[0]
+                      if (!file) return
+                      setPicMsg("")
+                      setPicErr("")
+                      if (file.size > 5 * 1024 * 1024) {
+                        setPicErr("Image too large (max 5MB)")
+                        return
+                      }
+                      setPicSaving(true)
+                      try {
+                        const reader = new FileReader()
+                        reader.readAsDataURL(file)
+                        reader.onload = async () => {
+                          const base64 = reader.result as string
+                          const res = await fetch("/api/user/profile", {
+                            method: "PUT",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({ profilePicture: base64 }),
+                          })
+                          const data = await res.json()
+                          if (res.ok) {
+                            setPicMsg("Profile picture updated")
+                            await update()
+                          } else {
+                            setPicErr(data.error || "Upload failed")
+                          }
+                          setPicSaving(false)
+                        }
+                      } catch {
+                        setPicErr("Upload failed")
+                        setPicSaving(false)
+                      }
+                    }}
+                  />
+                </label>
+                {user?.profilePicture && (
+                  <button
+                    onClick={async () => {
+                      setPicMsg("")
+                      setPicErr("")
+                      setPicSaving(true)
+                      try {
+                        const res = await fetch("/api/user/profile", {
+                          method: "PUT",
+                          headers: { "Content-Type": "application/json" },
+                          body: JSON.stringify({ profilePicture: null }),
+                        })
+                        if (res.ok) {
+                          setPicMsg("Profile picture removed")
+                          await update()
+                        } else {
+                          setPicErr("Failed to remove")
+                        }
+                      } catch {
+                        setPicErr("Failed to remove")
+                      }
+                      setPicSaving(false)
+                    }}
+                    className="text-xs text-zinc-500 hover:text-zinc-300 transition-colors"
+                  >
+                    Remove
+                  </button>
+                )}
               </div>
             </div>
           </div>
