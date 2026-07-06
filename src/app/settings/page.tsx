@@ -17,9 +17,10 @@ export default function SettingsPage() {
   const [msg, setMsg] = useState("")
   const [err, setErr] = useState("")
   const [saving, setSaving] = useState(false)
+  const [picSaving, setPicSaving] = useState(false)
   const [picMsg, setPicMsg] = useState("")
   const [picErr, setPicErr] = useState("")
-  const [picSaving, setPicSaving] = useState(false)
+  const [profilePic, setProfilePic] = useState<string | null>(null)
 
   // Password
   const [showPw, setShowPw] = useState(false)
@@ -38,6 +39,13 @@ export default function SettingsPage() {
       setName(user.name || "")
       setEmail(user.email || "")
     }
+  }, [user])
+
+  useEffect(() => {
+    if (!user?.id) return
+    fetch("/api/user/profile").then(r => r.json()).then(d => {
+      if (d.user?.profilePicture) setProfilePic(d.user.profilePicture)
+    }).catch(() => {})
   }, [user])
 
   const saveProfile = async (e: React.FormEvent) => {
@@ -124,8 +132,8 @@ export default function SettingsPage() {
             {picMsg && <p className="text-sm text-emerald-400 mb-3">{picMsg}</p>}
             <div className="flex items-center gap-4">
               <div className="w-20 h-20 rounded-full bg-zinc-800 flex items-center justify-center text-3xl text-zinc-500 overflow-hidden flex-shrink-0">
-                {user?.profilePicture ? (
-                  <img src={user.profilePicture} alt="Profile" className="w-full h-full object-cover" />
+                {profilePic ? (
+                  <img src={profilePic} alt="Profile" className="w-full h-full object-cover" />
                 ) : (
                   <span>{(user?.name || user?.username || "?")[0].toUpperCase()}</span>
                 )}
@@ -161,6 +169,7 @@ export default function SettingsPage() {
                           const data = await res.json()
                           if (res.ok) {
                             setPicMsg("Profile picture updated")
+                            setProfilePic(base64)
                             await update()
                           } else {
                             setPicErr(data.error || "Upload failed")
@@ -174,7 +183,7 @@ export default function SettingsPage() {
                     }}
                   />
                 </label>
-                {user?.profilePicture && (
+                {profilePic && (
                   <button
                     onClick={async () => {
                       setPicMsg("")
@@ -188,6 +197,7 @@ export default function SettingsPage() {
                         })
                         if (res.ok) {
                           setPicMsg("Profile picture removed")
+                          setProfilePic(null)
                           await update()
                         } else {
                           setPicErr("Failed to remove")

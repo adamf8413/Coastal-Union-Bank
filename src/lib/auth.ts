@@ -41,7 +41,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           accountNumber: user.accountNumber,
           routingNumber: user.routingNumber,
           swiftCode: user.swiftCode,
-          profilePicture: user.profilePicture,
         }
       },
     }),
@@ -55,7 +54,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         token.accountNumber = (user as any).accountNumber
         token.routingNumber = (user as any).routingNumber
         token.swiftCode = (user as any).swiftCode
-        token.profilePicture = (user as any).profilePicture
       }
       return token
     },
@@ -67,7 +65,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       u.accountNumber = token.accountNumber
       u.routingNumber = token.routingNumber
       u.swiftCode = token.swiftCode
-      u.profilePicture = token.profilePicture
       session.user = u
       return session
     },

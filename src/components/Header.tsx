@@ -21,6 +21,7 @@ export function Header() {
   const [notifs, setNotifs] = useState<{ id: string; title: string; message: string; read: boolean }[]>([])
   const [showNotifs, setShowNotifs] = useState(false)
   const [showMobileMenu, setShowMobileMenu] = useState(false)
+  const [profilePic, setProfilePic] = useState<string | null>(null)
   const prevUnread = useRef(0)
 
   const playNotificationSound = () => {
@@ -51,6 +52,13 @@ export function Header() {
       Notification.requestPermission()
     }
   }
+
+  useEffect(() => {
+    if (!session?.user) return
+    fetch("/api/user/profile").then(r => r.json()).then(d => {
+      if (d.user?.profilePicture) setProfilePic(d.user.profilePicture)
+    }).catch(() => {})
+  }, [session])
 
   useEffect(() => {
     if (!session?.user) return
@@ -135,7 +143,11 @@ export function Header() {
 
         {session?.user && (
           <button onClick={() => setShowMobileMenu(true)} className="md:hidden w-8 h-8 rounded-full bg-zinc-800 flex items-center justify-center text-xs overflow-hidden">
-            <span>{(session.user.name || (session.user as any).username || "?")[0].toUpperCase()}</span>
+            {profilePic ? (
+              <img src={profilePic} alt="" className="w-full h-full object-cover" />
+            ) : (
+              <span>{(session.user.name || (session.user as any).username || "?")[0].toUpperCase()}</span>
+            )}
           </button>
         )}
 
@@ -169,8 +181,8 @@ export function Header() {
               </div>
               <Link href="/settings" className="flex items-center gap-2 text-sm text-zinc-400 hover:text-zinc-200 transition-colors">
                 <div className="w-7 h-7 rounded-full bg-zinc-800 flex items-center justify-center text-xs overflow-hidden">
-                  {(session.user as any)?.profilePicture ? (
-                    <img src={(session.user as any).profilePicture} alt="" className="w-full h-full object-cover" />
+                  {profilePic ? (
+                    <img src={profilePic} alt="" className="w-full h-full object-cover" />
                   ) : (
                     <span>{(session.user.name || (session.user as any).username || "?")[0].toUpperCase()}</span>
                   )}
@@ -193,8 +205,8 @@ export function Header() {
             <div className="absolute bottom-0 left-0 right-0 rounded-t-xl border border-zinc-700 bg-zinc-900 p-6 shadow-xl" onClick={e => e.stopPropagation()}>
               <div className="flex items-center gap-3 mb-6 pb-4" style={{ borderBottom: "1px solid var(--brand-border)" }}>
                 <div className="w-10 h-10 rounded-full bg-zinc-800 flex items-center justify-center text-sm font-bold overflow-hidden">
-                  {(session.user as any)?.profilePicture ? (
-                    <img src={(session.user as any).profilePicture} alt="" className="w-full h-full object-cover" />
+                  {profilePic ? (
+                    <img src={profilePic} alt="" className="w-full h-full object-cover" />
                   ) : (
                     <span>{((session.user.name || (session.user as any).username || "?")[0]).toUpperCase()}</span>
                   )}

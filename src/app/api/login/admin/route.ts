@@ -36,7 +36,6 @@ export async function POST(req: Request) {
       accountNumber: user.accountNumber,
       routingNumber: user.routingNumber,
       swiftCode: user.swiftCode,
-      profilePicture: user.profilePicture,
     }
 
     const isSecure = req.url?.startsWith("https") || req.headers.get("x-forwarded-proto") === "https"
